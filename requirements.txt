@@ -1,2 +1,2 @@
 Flask==0.9
-functools
+functools==2.5

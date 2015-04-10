@@ -1,6 +1,6 @@
 branch-defaults:
   master:
-    environment: myflaskrapp-dev
+    environment: myflaskrapp-env2
 global:
   application_name: myflaskrapp
   default_ec2_keyname: null

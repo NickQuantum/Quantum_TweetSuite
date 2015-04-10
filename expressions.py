@@ -9,8 +9,8 @@ import flask, flask.views
 #import os
 import functools
 
-app = flask.Flask(__name__)
-app.secret_key = "bacon"
+application = flask.Flask(__name__)
+application.secret_key = "bacon"
 
 users = {'admin':'admin'}
 
@@ -60,13 +60,13 @@ class Remote(flask.views.MethodView):
         flask.flash(result)
         return flask.redirect(flask.url_for('remote'))
 
-app.add_url_rule('/',
+application.add_url_rule('/',
                  view_func=Main.as_view('index'),
                  methods=["Get","POST"])
-app.add_url_rule('/remote/',
+application.add_url_rule('/remote/',
                  view_func=Remote.as_view('remote'), 
                  methods=['GET','POST'])
 
-app.debug = True
+#application.debug = True
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    application.run()

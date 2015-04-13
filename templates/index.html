@@ -1,24 +1,31 @@
 {% extends "base.html" %}
 {% block body %}
-	<h1>Welcome!</h1>
+        <h1>Welcome!</h1>
 	{% if 'username' in session %}
-		<p>Welcome back {{session['username']}}!</p>
+		<h2>Welcome back {{session['username']}}!</h2>
 		<form action="{{url_for('index')}}" method="post">
 			<input type="submit" name="logout" value="logout" />
 		</form>
 	{% else %}
-		<p>A login is required: </p>
-		<form action="{{url_for('index')}}" method="post">
-			<p>Username:<br />
-			<input type="text" name = "username" /></p>
-			<p>Password <br />
-			<input type="password" name="passwd"/></p> 
-			<p><input type="submit" value="submit" /></p>
-		</form>
+            <div class="container">
+        
+              <form class="form-signin" action="{{url_for('index')}}" method="post">
+                <h2 class="form-signin-heading">Please sign in</h2>
+                <label for="inputEmail" class="sr-only">Email address</label>
+                <input type="text" name = "username" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+                <label for="inputPassword" class="sr-only">Password</label>
+                <input type="password" name="passwd" id="inputPassword" class="form-control" placeholder="Password" required>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+              </form>
+        
+            </div> <!-- /container -->
 	{% endif %}
+
 	{% with messages = get_flashed_messages() %}
 		{% for message in messages %}
+            <pre>
 			{{message}}
+            </pre>
 		{% endfor %}
 	{% endwith %}
 {% endblock %}

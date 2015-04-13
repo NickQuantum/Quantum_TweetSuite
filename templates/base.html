@@ -1,19 +1,30 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>My Flask Page</title>
-		<link rel="stylesheet" type="text/css" href="/static/style.css" />
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>My Flask Page</title>
+        <!-- Custom styles for this template -->
+        <link rel="stylesheet" type="text/css" href="/static/signin.css" />
+        <link rel="stylesheet" type="text/css" href="/static/style.css" />
+        <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css" />
+        <meta name="description" content="Twitter Analytics">
+        <meta name="author" content="Quantum Solutions">
+        <link rel="icon" href="/static/favicon.ico">
 	</head>
 	<body>
-		<div id="content"
-			{% block body %}{% endblock %}
-		</div>
-		<div id="nav">
-			Navigation: <br />
-			<ul>
-				{%block nav %}{% endblock %}
-				<li><a href="{{url_for('remote')}}"> remote control</a></li>
-			</ul>
-		</div>
+        <div class="jumbotron">		
+            <div id="content">
+                {% block body %}{% endblock %}
+            </div>
+            <div id="nav">
+                Navigation: <br />
+                <ul>
+                    {%block nav %}{% endblock %}
+                    <li><a href="{{url_for('remote')}}"> remote control</a></li>
+                </ul>
+            </div>
+        </div> <!-- end Class jumbotron -->
 	</body>
 </html>

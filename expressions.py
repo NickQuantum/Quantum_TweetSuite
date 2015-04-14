@@ -12,7 +12,7 @@ import functools
 application = flask.Flask(__name__)
 application.secret_key = "bacon"
 
-users = {'admin':'admin'}
+users = {'admin@admin.com':'admin'}
 
 
 class Main(flask.views.MethodView):

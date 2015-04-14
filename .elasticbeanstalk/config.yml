@@ -1,9 +1,9 @@
 branch-defaults:
   master:
-    environment: myflaskrapp-env2
+    environment: myflaskrapp-dev
 global:
   application_name: myflaskrapp
-  default_ec2_keyname: null
+  default_ec2_keyname: ts_keypair
   default_platform: Python 2.7
   default_region: us-east-1
   profile: eb-cli

@@ -49,22 +49,34 @@ def login_required(method):
     return wrapper
 
 
-class Remote(flask.views.MethodView):
+class Search(flask.views.MethodView):
     @login_required
     def get(self):
-        return flask.render_template('remote.html')
+        return flask.render_template('search.html')
     
     @login_required    
     def post(self):
         result = eval(flask.request.form['expression'])
         flask.flash(result)
-        return flask.redirect(flask.url_for('remote'))
+        return flask.redirect(flask.url_for('search'))
+
+class Register(flask.views.MethodView):
+    def get(self):
+        return flask.render_template('register.html')
+
+    def post(self):
+        flask.flash('You are registered!!')
+        return flask.redirect(flask.url_for('index'))
+
 
 application.add_url_rule('/',
                  view_func=Main.as_view('index'),
                  methods=["Get","POST"])
-application.add_url_rule('/remote/',
-                 view_func=Remote.as_view('remote'), 
+application.add_url_rule('/search/',
+                 view_func=Search.as_view('search'), 
+                 methods=['GET','POST'])
+application.add_url_rule('/register/',
+                 view_func=Register.as_view('register'), 
                  methods=['GET','POST'])
 
 #application.debug = True

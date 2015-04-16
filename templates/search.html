@@ -3,20 +3,10 @@
 	<h2>Twitter Search</h2>
 	Enter keywords to search:
 	<form action="{{url_for('search')}}" method="post">
-		<input type="text" name="expression" />
+		<input type="text" name="searchtxt" />
 		<input type="submit" value="Execute" />
 	</form>
-	{% with messages = get_flashed_messages() %}
-		{% if messages %}
-			Results:
-			<pre>
-				{% for message in messages %}
-{{ message }}
-				{% endfor %}
-			</pre>
-		{% endif %}
-	{% endwith %}
 {% endblock %}
 {% block nav %}
-<li><a href="{{url_for('index')}}">Home</a></li>
+<li><a href="{{url_for('login')}}">Home</a></li>
 {% endblock %}

@@ -4,6 +4,8 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Twitter Analytics">
+        <meta name="author" content="Quantum Solutions">
         <title>My Flask Page</title>
         <!-- Custom styles for this template -->
         <link rel="stylesheet" type="text/css" href="/static/signin.css" />
@@ -11,8 +13,9 @@
         <link rel="stylesheet" type="text/css" href="/static/dist/css/bootstrap.css" />
         <link rel="stylesheet" type="text/css" href="/static/font/css/font-awesome.min.css" />
         <link rel="stylesheet" type="text/css" href="/static/font/css/bootstrap-social.css" />
-        <meta name="description" content="Twitter Analytics">
-        <meta name="author" content="Quantum Solutions">
+        <script type="text/javascript" src="//code.jquery.com/jquery-2.0.2.js"></script>
+        <script type="text/javascript" src="/static/dist/js/bootstrap.min.js"></script>
+
         <link rel="icon" href="/static/favicon.ico">
 	</head>
 	<body>
@@ -31,20 +34,26 @@
             <div id="navbar" class="collapse navbar-collapse">
               <ul class="nav navbar-nav">
                     {%block nav %}{% endblock %}
-                <li><a href="{{url_for('search')}}"> Search</a></li>
-                <li><a href="{{url_for('register')}}">Register</a></li>
                 <li><a href="#contact">Contact</a></li>
               </ul>
             </div><!--/.nav-collapse -->
           </div>
         </nav>
 
-        <div class="container">	<!-- jumbotron -->	
+        <div class="container" style="margin-left:-80px;">	<!-- jumbotron -->	
             <div id="content">
                 {% block body %}{% endblock %}
             </div>
         </div> <!-- end Class jumbotron -->
-
+        <div id="flashed" style="float:left;" >
+        	{% with messages = get_flashed_messages() %}
+        		{% for message in messages %}
+                <p style="margin-left:50px; font-weight: bold; color:red;" class="text-left">
+                    {{message}}
+                </p>
+                {% endfor %}
+            {% endwith %}
+        </div> 
 	<hr>
 	<br>
 	<br>

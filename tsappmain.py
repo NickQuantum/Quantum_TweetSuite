@@ -9,9 +9,9 @@ import flask, flask.views
 
 
 #views
-from login import Login
-from search import Search
-from register import Register
+from classes.login import Login
+from classes.search import Search
+from classes.register import Register
 
 application = flask.Flask(__name__)
 application.secret_key = "bacon"

@@ -15,9 +15,6 @@ class Login(flask.views.MethodView):
         return flask.render_template('login.html')
 
     def post(self):
-        if 'logout' in flask.request.form:
-            flask.session.pop('username', None)
-            return flask.redirect(flask.url_for('login'))
         required = ['username','passwd']
         for r in required:
             if r not in flask.request.form:
@@ -27,8 +24,9 @@ class Login(flask.views.MethodView):
         passwd = flask.request.form['passwd']
         if username in users and users[username] == passwd:
             flask.session['username'] = username
+            return flask.redirect(flask.url_for('search'))
         else:
             flask.flash("Username doesn't exist or incorrect password")
-        return flask.redirect(flask.url_for('login'))
+            return flask.redirect(flask.url_for('login'))
 
 

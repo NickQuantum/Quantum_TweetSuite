@@ -15,6 +15,10 @@ class Search(flask.views.MethodView):
     
     @login_required    
     def post(self):
-        result = eval(flask.request.form['searchtxt'])
-        flask.flash(result)
-        return flask.redirect(flask.url_for('search'))
+        if 'logout' in flask.request.form:
+            flask.session.pop('username', None)
+            return flask.redirect(flask.url_for('login'))
+        else:
+            result = flask.request.form['searchtxt']
+            flask.flash(result)
+            return flask.redirect(flask.url_for('search'))

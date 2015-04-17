@@ -1,12 +1,48 @@
 {% extends "base.html" %}
 {% block body %}
-	<h2>Twitter Search</h2>
-	Enter keywords to search:
-	<form action="{{url_for('search')}}" method="post">
-		<input type="text" name="searchtxt" />
-		<input type="submit" value="Execute" />
-	</form>
+    <div class="container">
+	    <div class="col-lg-12" >
+			<div class="row text-center">
+                    <div class="col-lg-6">
+                        <h2>Tweet Search</h2>
+                        Enter keywords to search:
+                    	<form action="{{url_for('search')}}" method="post">
+                    		<input type="text" name="searchtxt" />
+                    		<input type="submit" value="Search" /><i class="glyphicon glyphicon-search"></i>
+                    	</form>
+                    </div>
+                    <div class="col-lg-4">
+                    </div>
+                    <div class="col-lg-6">
+                            <div class="container-fluid" style="float:right;margin-top:10px;">
+                                	<h4>Welcome back <b>{{session['username']}}!</b>
+                            </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+
+
 {% endblock %}
 {% block nav %}
-<li><a href="{{url_for('login')}}">Home</a></li>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="{{url_for('search')}}">Tweet Suite</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+              <ul class="nav navbar-nav navbar-right navbar-user">
+                <li><a href="mailto:gerald.varghese@gmail.com" class="navbar-brand" style="color:white;"><i class="glyphicon glyphicon-envelope"></i> Message</a></li>
+                <li><a href="{{url_for('search')}}" class="navbar-brand" style="color:white;"><i class="glyphicon glyphicon-search"></i> Search</a></li>	
+                <li><form action="{{url_for('search')}}" name="logout" method="post" class="navbar-brand" style="color:white;"><i class="fa fa-power-off"></i> <a href="javascript:document.flogout.submit();" name="logout">Logout</a> <input type="submit" name="logout" value="logout" /></li> 
+              </ul>
+            </div><!--/.nav-collapse -->
+          </div>
+        </nav>
 {% endblock %}

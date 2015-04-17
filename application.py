@@ -28,6 +28,10 @@ application.add_url_rule('/register/',
                  view_func=Register.as_view('register'), 
                  methods=['GET','POST'])
 
+#handler to page not found - or incorrect URL
+@application.errorhandler(404)
+def page_not_found(error):
+    return flask.redirect(flask.url_for('login'))
 #application.debug = True
 if __name__ == '__main__':
     application.run()

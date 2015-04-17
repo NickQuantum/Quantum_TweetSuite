@@ -1,30 +1,75 @@
 {% extends "base.html" %}
 {% block body %}
-	{% if 'username' in session %}
-		<h2>Welcome back <b>{{session['username']}}!</b></h2>
-		<form action="{{url_for('login')}}" method="post">
-			<input class="btn btn-lg btn-primary" type="submit" name="logout" value="logout" />
-		</form>
-	{% else %}
-            <div class="container" style="margin-top: 20px;"> 
-            <span>
-              <form class="form-signin" action="{{url_for('login')}}" method="post">
-                <h2 class="form-signin-heading">Please sign in</h2>
-                <label for="inputEmail" class="sr-only">Email address</label>
-                <input type="email" name = "username" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-                <label for="inputPassword" class="sr-only">Password</label>
-                <input type="password" name="passwd" id="inputPassword" class="form-control" placeholder="Password" required>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-              </form>
-<img src="/static/images/picture.png" style="height: 400px;margin-left: 10px;padding-left: 10px; width:800px">
-            </span>
-            </div>
-	{% endif %}
-{% endblock %}
-{% block nav %}
     {% if 'username' in session %}
-        <li><a href="{{url_for('search')}}">Search</a></li>
+        <h1>Session is active</h1>
     {% else %}
-        <li><a href="{{url_for('register')}}">Register</a></li>
+    <div class="col-lg-12" style="margin-top:-50px; color:white; background-color: black;">
+    <h1>TweetSuite</h1>
+    <p>Tweets are conversations<br>Explore and analyze the tweets and make them work for you.</p>
+    </div>
+        <div class="col-lg-12" style="margin-top: 0px;  background-color: black;"> 
+            <span>
+                <form class="form-signin" action="{{url_for('login')}}" method="post">
+                    <label for="inputEmail" class="sr-only">Email address</label>
+                    <input type="email" name = "username" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+                    <label for="inputPassword" class="sr-only">Password</label>
+                    <input type="password" name="passwd" id="inputPassword" class="form-control" placeholder="Password" required>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                    <div class="">
+                        <h4 class="text-right"><a  href="{{url_for('register')}}">Create account</a></h4>
+                    </div>
+                </form>
+                <img src="http://cdn3.wccftech.com/wp-content/uploads/2013/05/GTX-770-SLI.jpg" style="height: 400px; margin-top:-100px; margin-left: 100px;padding-left: 100px; width:800px">
+            </span>
+        </div>
     {% endif %}
+{% endblock %}
+
+{% block nav %}
+{% endblock %}
+
+{% block footer %}
+    <hr>
+    <br>
+    <br>
+        <div class="col-lg-12" style="background-color: #eeeeee;">
+            <h2 style="text-align:center;"> <u>Features </u></h2>
+            <div class="row text-center">
+                <div class="col-lg-3">
+                    <h4>Visualization</h4>
+                    <p align="center">Graphical visualization your tweets</p>
+                </div>
+                <div class="col-lg-3">
+                    <h4>Sentiment</h4>
+                    <p align="center">Know the sentiment of your tweets</p>
+                </div>
+                <div class="col-lg-3">
+                    <h4>Place</h4>
+                    <p align="center">Find which part of the world is reading your tweets</p>
+                </div>
+                <div class="col-lg-3">
+                    <h4>Frequency</h4>
+                    <p align="center">See the frequency of your re-tweets and favourite tweets</p>
+                </div>
+            </div>
+        </div>
+<br>
+<br>
+        <div class="col-lg-12" style="background-color: white;">
+        <h2 style="text-align:center;"> <u>References</u> </h2>
+            <div class="row">
+                <div class="col-lg-3">
+                    <p align="center"><a href="https://www.facebook.com/sharer/sharer.php?u=tweetsuite.net" class="btn btn-facebook" ><i class="fa fa-facebook"></i> | Share on Facebook</a></p>
+                </div>
+                <div class="col-lg-3">
+                    <p align="center"><a href="https://plus.google.com/share?url=http://tweetsuite.net/" class="btn btn-google-plus"><i class="fa fa-google-plus"></i> | Share on Google Plus</a></p>
+                </div>
+                <div class="col-lg-3">
+                    <p align="center"><a href="https://twitter.com/home?status=Visit%20tweetsuite.net" class="btn btn-twitter"><i class="fa fa-twitter"></i> | Share on Twitter</a></p>
+                </div>
+                <div class="col-lg-3">
+                    <p align="center"><a href="https://www.linkedin.com/shareArticle?mini=true&url=tweetsuite.net&source=" class="btn btn-linkedin"><i class="fa fa-linkedin"></i> | Share on Linkedin</a></p>
+                </div>
+            </div>
+        </div>
 {% endblock %}

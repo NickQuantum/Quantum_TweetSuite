@@ -1,0 +1,38 @@
+<html lang="en">
+<head>
+  <title>Tweet Table</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+
+
+{% block body %}
+<div class="container">
+<table class="table table-hover table-bordered table-striped">
+   <tr> 
+    <th>Id</th>
+    <th>User</th>
+    <th>Text</th>
+    <th>Hashtag</th>
+  </tr>
+{% for i in range(tweets|length) %}
+  <tr>
+    <td> {{i+1}} </td>
+    <td>{{ tweets[i][1] }}</td>
+    <td>{{ tweets[i][0] }}</td>
+    <td>{{ "#"+ " #".join(tweets[i][2]) }}</td>
+  </tr>
+  {% endfor %}
+</table>
+</div>
+  
+{% endblock %}
+
+
+</body>
+</html>

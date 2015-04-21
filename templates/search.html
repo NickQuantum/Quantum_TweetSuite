@@ -7,7 +7,7 @@
                         <h2>Tweet Search</h2>
                         Enter keywords to search:
                     	<form action="{{url_for('search')}}" method="post">
-                    		<input type="text" name="searchtxt" />
+                    		<input type="text" name="searchtxt" required />
                     		<input type="submit" value="Search" /><i class="glyphicon glyphicon-search"></i>
                     	</form>
                     </div>

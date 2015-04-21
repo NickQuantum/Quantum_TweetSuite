@@ -5,8 +5,7 @@
 """
 
 import flask, flask.views
-import tweepy
-
+import login
 #import os
 
 
@@ -15,30 +14,23 @@ from classes.login import Login
 from classes.search import Search
 from classes.register import Register
 from classes.result import Result
-
+from utils import login_required
 
 
 #Declare the application
 application = flask.Flask(__name__)
 application.secret_key = "bacon"
-
+##application = app = Flask(__name__)
+##app.config.from_object(__name__)
 
 
 
 
 class ShowTweets(flask.views.MethodView):
+    @login_required
     def get(self):
-        consumer_key = "mpIuWJYkQKUvaiS4FPwQpGVr8"
-        consumer_secret = "EWOz9A9om3tf85XsF89KbIVC5LUkHEZNhdy2PcHTfOr9tP4jjE"
-        access_token = "3080403725-gleW4H38K4tJ69vtUFJDZgBCr2VtqFb3D06Xk7y"
-        access_token_secret = "zWxk43qe3c8QlP6Pua2A81UvDTlpe90lqUVC5PxZEzcqg"
-        tweets= []
-        
-        auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
-        auth.set_access_token(access_token, access_token_secret)
-        
-        api = tweepy.API(auth)
-        
+        api = login.sapi
+        tweets=[]
         public_tweets = api.home_timeline()
         for tweet in public_tweets:
             #tweets.append(tweet.text)

@@ -5,16 +5,15 @@
 """
 
 import flask, flask.views
-import login
 #import os
 
 
 #views
-from classes.login import Login
+from classes.login import Login, sapi
 from classes.search import Search
 from classes.register import Register
 from classes.result import Result
-from utils import login_required
+from classes.utils import login_required
 
 
 #Declare the application
@@ -29,7 +28,7 @@ application.secret_key = "bacon"
 class ShowTweets(flask.views.MethodView):
     @login_required
     def get(self):
-        api = login.sapi
+        api = sapi
         tweets=[]
         public_tweets = api.home_timeline()
         for tweet in public_tweets:

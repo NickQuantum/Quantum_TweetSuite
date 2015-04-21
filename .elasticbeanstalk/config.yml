@@ -1,6 +1,6 @@
 branch-defaults:
   master:
-    environment: null
+    environment: myflaskrapp-dev
 global:
   application_name: myflaskrapp
   default_ec2_keyname: ts_keypair

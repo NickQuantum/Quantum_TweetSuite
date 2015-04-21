@@ -1,28 +1,22 @@
 {% extends "base.html" %}
 {% block body %}
-    <div class="container">
-	    <div class="col-lg-12" >
-			<div class="row text-center">
-                    <div class="col-lg-6">
-                        <h2>Tweet Search</h2>
-                        Enter keywords to search:
-                    	<form action="{{url_for('search')}}" method="post">
-                    		<input type="text" name="searchtxt" required />
-                    		<input type="submit" value="Search" /><i class="glyphicon glyphicon-search"></i>
+<div class="container-fluid" style="margin-top:50px;">
+                   	<form action="{{url_for('search')}}" method="post" class= "form-inline">
+                          <div class="form-group">
+                            <label for="Query">Query</label>
+                            <input type="text" class="form-control" id="Query" name="Query" placeholder="Enter keywords" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="fromDate">From: </label>
+                            <input type="date" class="form-control" id="fromDate" name="fromDate" placeholder="mm-dd-yy">
+                          </div>
+                          <div class="form-group">
+                            <label for="toDate">To: </label>
+                            <input type="date" class="form-control" id="toDate" name="toDate" placeholder="mm-dd-yy">
+                          </div>
+                          <button type="submit" class="btn btn-default">Submit</button><i class="glyphicon glyphicon-search"></i>
                     	</form>
-                    </div>
-                    <div class="col-lg-4">
-                    </div>
-                    <div class="col-lg-6">
-                            <div class="container-fluid" style="float:right;margin-top:10px;">
-                                	<h4>Welcome back <b>{{session['username']}}!</b>
-                            </div>
-                    </div>
-                </div>
-        </div>
-    </div>
-
-
+</div>
 {% endblock %}
 {% block nav %}
         <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -41,6 +35,7 @@
                 <li><a href="mailto:gerald.varghese@gmail.com" class="navbar-brand" style="color:white;"><i class="glyphicon glyphicon-envelope"></i> Message</a></li>
                 <li><a href="{{url_for('search')}}" class="navbar-brand" style="color:white;"><i class="glyphicon glyphicon-search"></i> Search</a></li>	
                 <li><form action="{{url_for('search')}}" name="logout" method="post" class="navbar-brand" style="color:white;"><i class="fa fa-power-off"></i> <a href="javascript:document.flogout.submit();" name="logout">Logout</a> <input type="submit" name="flogout" value="logout" /></form></li> 
+                <li><span class="navbar-brand" style="color:white;"><b>{{session['username']}}!</b></span></li>	
               </ul>
             </div><!--/.nav-collapse -->
           </div>

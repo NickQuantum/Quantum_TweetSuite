@@ -26,7 +26,7 @@ class Search(flask.views.MethodView):
         else:
             ## tweet collector code here --
             #query = 'python'
-            query = flask.request.form['searchtxt']
+            query = flask.request.form['Query']
             max_tweets = 50
 
             api = login.sapi

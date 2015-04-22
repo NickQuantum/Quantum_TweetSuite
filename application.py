@@ -39,6 +39,10 @@ class ShowTweets(flask.views.MethodView):
         print(tweets)
         return flask.render_template('show_tweets.html', tweets=tweets)
 
+class Logout(flask.views.MethodView):
+    def get(self):
+        flask.session.pop('username', None)
+        return flask.redirect(flask.url_for('login'))
 
 #routes
 application.add_url_rule('/',
@@ -52,6 +56,9 @@ application.add_url_rule('/register/',
                  methods=['GET','POST'])
 application.add_url_rule('/result/',
                  view_func=Result.as_view('result'), 
+                 methods=['GET'])
+application.add_url_rule('/logout',
+                 view_func=Logout.as_view('logout'),
                  methods=['GET'])
 application.add_url_rule('/showtweets',
                  view_func=ShowTweets.as_view('showtweets'),

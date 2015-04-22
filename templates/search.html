@@ -34,7 +34,7 @@
               <ul class="nav navbar-nav navbar-right navbar-user">
                 <li><a href="mailto:gerald.varghese@gmail.com" class="navbar-brand" style="color:white;"><i class="glyphicon glyphicon-envelope"></i> Message</a></li>
                 <li><a href="{{url_for('search')}}" class="navbar-brand" style="color:white;"><i class="glyphicon glyphicon-search"></i> Search</a></li>	
-                <li><form action="{{url_for('search')}}" name="logout" method="post" class="navbar-brand" style="color:white;"><i class="fa fa-power-off"></i> <a href="javascript:document.flogout.submit();" name="logout">Logout</a> <input type="submit" name="flogout" value="logout" /></form></li> 
+                <li><a href="{{url_for('logout')}}" class="navbar-brand" style="color:white;"><i class="fa fa-power-off"></i> Logout</a></li>	
                 <li><span class="navbar-brand" style="color:white;"><b>{{session['username']}}!</b></span></li>	
               </ul>
             </div><!--/.nav-collapse -->

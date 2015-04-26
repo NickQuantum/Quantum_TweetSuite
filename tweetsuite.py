@@ -17,8 +17,8 @@ from classes.utils import login_required
 
 
 #Declare the application
-application = flask.Flask(__name__)
-application.secret_key = "bacon"
+tweetsuite = flask.Flask(__name__)
+tweetsuite.secret_key = "bacon"
 ##application = app = Flask(__name__)
 ##app.config.from_object(__name__)
 
@@ -31,7 +31,9 @@ class ShowTweets(flask.views.MethodView):
         api = sapi
         tweets=[]
         public_tweets = api.home_timeline()
+        print(public_tweets)
         for tweet in public_tweets:
+            print(tweet)
             #tweets.append(tweet.text)
             #hashtags = [hashtag.text for hashtag in tweet.entities.hashtags]
             #print(hashtags)
@@ -45,29 +47,29 @@ class Logout(flask.views.MethodView):
         return flask.redirect(flask.url_for('login'))
 
 #routes
-application.add_url_rule('/',
+tweetsuite.add_url_rule('/',
                  view_func=Login.as_view('login'),
                  methods=["Get","POST"])
-application.add_url_rule('/search/',
+tweetsuite.add_url_rule('/search/',
                  view_func=Search.as_view('search'), 
                  methods=['GET','POST'])
-application.add_url_rule('/register/',
+tweetsuite.add_url_rule('/register/',
                  view_func=Register.as_view('register'), 
                  methods=['GET','POST'])
-application.add_url_rule('/result/',
+tweetsuite.add_url_rule('/result/',
                  view_func=Result.as_view('result'), 
                  methods=['GET'])
-application.add_url_rule('/logout',
+tweetsuite.add_url_rule('/logout',
                  view_func=Logout.as_view('logout'),
                  methods=['GET'])
-application.add_url_rule('/showtweets',
+tweetsuite.add_url_rule('/showtweets',
                  view_func=ShowTweets.as_view('showtweets'),
                  methods=['GET'])
 
 #handler to page not found - or incorrect URL
-@application.errorhandler(404)
+@tweetsuite.errorhandler(404)
 def page_not_found(error):
     return flask.redirect(flask.url_for('login'))
 #application.debug = True
 if __name__ == '__main__':
-    application.run()
+    tweetsuite.run()

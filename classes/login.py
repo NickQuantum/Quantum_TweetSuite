@@ -28,7 +28,11 @@ class Login(flask.views.MethodView):
 
         users = Table('Users')
         #user = users.get_item(EmailId='admin@admin.com',Password='admin')
-        user = users.get_item(EmailId=username,Password=passwd)
+        try:
+            user = users.get_item(EmailId=username,Password=passwd)
+        except:
+            user = None
+            pass
         
         #if username in users and users[username] == passwd:
         if user:

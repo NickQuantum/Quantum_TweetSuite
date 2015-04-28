@@ -15,11 +15,13 @@ class Register(flask.views.MethodView):
 
     def post(self):
         print('inside post method')
-        required = ['username','password','password2']
+        required = ['username','password']
+        print(required)
         for r in required:
             if r not in flask.request.form:
-                flask.flash("Error: {0}/{1} is required.".format(r))
+                flask.flash("Error: {0} is required.".format(r))
                 return flask.redirect(flask.url_for('register'))
+        print('start assigning')
         username = flask.request.form['username']
         password = flask.request.form['password']
         print('username is: '+  username)

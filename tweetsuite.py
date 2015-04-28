@@ -17,7 +17,7 @@ from classes.utils import login_required
 
 
 #Declare the application
-tweetsuite = flask.Flask(__name__)
+tweetsuite = application = flask.Flask(__name__)
 tweetsuite.secret_key = "bacon"
 ##application = app = Flask(__name__)
 ##app.config.from_object(__name__)

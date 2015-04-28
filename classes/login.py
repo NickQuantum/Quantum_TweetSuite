@@ -7,9 +7,10 @@ Created on Thu Apr 16 00:54:02 2015
 import flask, flask.views
 import tweepy
 
-from boto.dynamodb2.table import Table
+##from boto.dynamodb2.table import Table
 
-#users = {'admin@admin.com':'admin'}
+#
+users = {'admin@admin.com':'admin'}
 sapi = 0
 
 class Login(flask.views.MethodView):
@@ -26,16 +27,17 @@ class Login(flask.views.MethodView):
         passwd = flask.request.form['passwd']
         
 
-        users = Table('Users')
-        #user = users.get_item(EmailId='admin@admin.com',Password='admin')
-        try:
-            user = users.get_item(EmailId=username,Password=passwd)
-        except:
-            user = None
-            pass
+
+        ##try:
+            ##users = Table('Users')
+            ##user = users.get_item(EmailId=username,Password=passwd)
+        ##except:
+            ##user = None
+            ##pass
         
-        #if username in users and users[username] == passwd:
-        if user:
+        #
+        if username in users and users[username] == passwd:
+        ##if user:
             flask.session['username'] = username
             ## create API Object using Twitter access keys
             ##one time

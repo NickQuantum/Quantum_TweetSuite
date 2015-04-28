@@ -13,7 +13,7 @@ from utils import login_required
 class Result(flask.views.MethodView):
     @login_required
     def get(self):
-        #tweets_data_path = 'C://Temp//tweet_search.txt' 
+        ##tweets_data_path = 'C://Temp//tweet_search.txt' 
         tweets_data_path = '/tmp/tweet_search.txt' 
         tweets_data = []
         tweets_file = open(tweets_data_path, "r")

@@ -2,24 +2,18 @@
 {% block body %}
 <body style="background-color:black;">
     <div class="container" style="background-color: black; width:25%; margin: 50px; margin-left:35%;">
+		<h1 style="color:white;text-align:center;"> Please Register! </h1>
       <div class="form-box" id="login-box">
-            <form action="{{url_for('login')}}" method="post" class="form-signin">
+            <form action="{{url_for('register')}}" method="post" class="form-signin">
             	<input type="hidden" name="step" value="0" />
-                <div class="body bg-white" style="background-color:#95cfd6;">
                     <div class="form-group">
-                        <input type="text" name="name" class="form-control" placeholder="Name" required/>
+                        <input type="email" name="username" class="form-control" placeholder="Email address" required/>
                     </div>
                     <div class="form-group">
-                        <input type="text" name="surname" class="form-control" placeholder="Surname" required/>
+                        <input type="password" name="passwd" class="form-control" placeholder="Password" required/>
                     </div>
                     <div class="form-group">
-                        <input type="email" name="userid" class="form-control" placeholder="Email" required/>
-                    </div>
-                    <div class="form-group">
-                        <input type="password" name="password" class="form-control" placeholder="Password" required/>
-                    </div>
-                    <div class="form-group">
-                        <input type="password" name="password2" class="form-control" placeholder="Retype password" required/>
+                        <input type="password" name="passwd2" class="form-control" placeholder="Retype password" required/>
                     </div>
                     <div class="row">
                     	<div class="col-lg-12">
@@ -29,9 +23,8 @@
 						 	<a href="{{url_for('login')}}" ><p align="right" style="padding-top:10px;">I already have an account</p></a>
 						 </div>
 					</div>
-                </div>
                 <div class="footer" style="background-color:#95cfd6;">                    
-
+					
                 </div>
             </form>
         </div>

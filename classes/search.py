@@ -27,7 +27,7 @@ class Search(flask.views.MethodView):
 
         api = login.sapi
         searched_tweets = [status for status in tweepy.Cursor(api.search, q=query).items(max_tweets)]
-        #filepath = 'C://Temp//tweet_search.txt' 
+        ##filepath = 'C://Temp//tweet_search.txt' 
         filepath = '/tmp/tweet_search.txt' 
         target = open(filepath, 'w')
         

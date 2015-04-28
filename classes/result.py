@@ -27,10 +27,10 @@ class Result(flask.views.MethodView):
                     #tweet["text"]
                     #tweets_data.append(tweet)
                     hashtags = [hashtag['text'] for hashtag in tweet['entities']['hashtags']]
-                    print(hashtags)
+                    #print(hashtags)
                     tweets_data.append([tweet["text"],tweet["user"]["screen_name"],
                                        hashtags])
-                    pprint.pprint(tweets_data)
+                    #pprint.pprint(tweets_data)
                     
                 except:
                     continue

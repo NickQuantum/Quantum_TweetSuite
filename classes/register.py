@@ -14,6 +14,7 @@ class Register(flask.views.MethodView):
         return flask.render_template('register.html')
 
     def post(self):
+        print('inside post method')
         required = ['username','password','password2']
         for r in required:
             if r not in flask.request.form:
@@ -21,10 +22,13 @@ class Register(flask.views.MethodView):
                 return flask.redirect(flask.url_for('register'))
         username = flask.request.form['username']
         password = flask.request.form['password']
-        
+        print('username is: '+  username)
+        print('password is: ' + password)
         try:
             users = Table('Users')
+            print('Users table successful!')
             users.put_item(data={'EmailId':username,'Password':password})
+            print('add item successful')
             flask.flash('You are registered!!')
             return flask.redirect(flask.url_for('login'))
         except:

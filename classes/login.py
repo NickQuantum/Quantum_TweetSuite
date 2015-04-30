@@ -36,16 +36,25 @@ class Login(flask.views.MethodView):
         
 
         print('Before accessing DynamoDB')
-        try:
-            users = Table('Users')
-            user = users.get_item(EmailId=username,Password=passwd)
-        except:
-            user = None
-            print('Accessing DynamoDB failed')
-            pass
+        if _platform == "linux" or _platform == "linux2":
+            try:
+                users = Table('Users')
+                validuser = users.get_item(EmailId=username,Password=passwd)
+            except:
+                validuser = None
+                print('Accessing DynamoDB failed')
+                pass
+        else:
+            try:
+                if (username in users and users[username] == passwd and _platform == "win32"):
+                    validuser = 'success'
+            except:
+                validuser = None
+                print('local authentication failed')
         
         print('before checking the login credentials')
-        if username in users and users[username] == passwd and _platform == "win32" or user and _platform == "linux":
+
+        if validuser:
             print('login successful')
             flask.session['username'] = username
             ## create API Object using Twitter access keys

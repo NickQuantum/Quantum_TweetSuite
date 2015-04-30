@@ -24,12 +24,10 @@
 
         {% block body %}{% endblock %}
 
-        <div id="flashed" style="float:left;" >
+        <div class="alert alert-danger" role="alert" id="flashed" style="float:left;" >
         	{% with messages = get_flashed_messages() %}
         		{% for message in messages %}
-                <p style="margin-left:50px; font-weight: bold; color:red;" class="text-left">
                     {{message}}
-                </p>
                 {% endfor %}
             {% endwith %}
         </div> 

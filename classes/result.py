@@ -6,23 +6,29 @@ Created on Sun Apr 19 00:53:54 2015
 """
 import flask, flask.views
 import json
-import pprint
+##import pprint
 
+from sys import platform as _platform
 from utils import login_required
 
 class Result(flask.views.MethodView):
     @login_required
     def get(self):
-        ##tweets_data_path = 'C://Temp//tweet_search.txt' 
-        tweets_data_path = '/tmp/tweet_search.txt' 
+        if _platform == "linux" or _platform == "linux2":
+            # linux
+            tweets_data_path = '/tmp/tweet_search.txt' 
+        elif _platform == "win32":
+            # Windows...
+            tweets_data_path = 'C://Users//geral_000//Documents//workarea//projects//myflaskrapp//static//tweets//tweet_search.txt'  
+        print('finished reading file')
         tweets_data = []
         tweets_file = open(tweets_data_path, "r")
-        
+        print('file read')
         for line in tweets_file:
                 try:
                     tweet = json.loads(line)
                     #pprint.pprint(tweet["text"])
-                    pprint.pprint(tweet["user"]["screen_name"])
+                    #pprint.pprint(tweet["user"]["screen_name"])
                    #print tweet
                     #tweet["text"]
                     #tweets_data.append(tweet)
@@ -33,6 +39,9 @@ class Result(flask.views.MethodView):
                     #pprint.pprint(tweets_data)
                     
                 except:
+                    print('error found')
                     continue
+        print('finished reading from file')
         tweets = tweets_data
+        print('assigned data to file parameter')
         return flask.render_template('show_table.html', tweets=tweets)

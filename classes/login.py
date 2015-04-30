@@ -8,8 +8,8 @@ import flask, flask.views
 import tweepy
 
 from boto.dynamodb2.table import Table
+from sys import platform as _platform
 
-#users = {'admin@admin.com':'admin'}
 sapi = 0
 
 class Login(flask.views.MethodView):
@@ -17,6 +17,13 @@ class Login(flask.views.MethodView):
         return flask.render_template('login.html')
 
     def post(self):
+        if _platform == "linux" or _platform == "linux2":
+            # linux
+            users = None
+        elif _platform == "win32":
+            # Windows...
+            users = {'admin@admin.com':'admin'} 
+
         required = ['username','passwd']
         for r in required:
             if r not in flask.request.form:
@@ -34,8 +41,7 @@ class Login(flask.views.MethodView):
             user = None
             pass
         
-        #if username in users and users[username] == passwd:
-        if user:
+        if username in users and users[username] == passwd and _platform == "win32" or user and _platform == "linux":
             flask.session['username'] = username
             ## create API Object using Twitter access keys
             ##one time

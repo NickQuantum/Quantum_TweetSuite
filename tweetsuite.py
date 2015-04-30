@@ -25,26 +25,16 @@ tweetsuite.secret_key = "bacon"
 
 
 
-class ShowTweets(flask.views.MethodView):
-    @login_required
-    def get(self):
-        api = sapi
-        tweets=[]
-        public_tweets = api.home_timeline()
-        print(public_tweets)
-        for tweet in public_tweets:
-            print(tweet)
-            #tweets.append(tweet.text)
-            #hashtags = [hashtag.text for hashtag in tweet.entities.hashtags]
-            #print(hashtags)
-            tweets.append([tweet.text,tweet.user.screen_name,tweet.favorite_count])
-        print(tweets)
-        return flask.render_template('show_tweets.html', tweets=tweets)
-
 class Logout(flask.views.MethodView):
     def get(self):
         flask.session.pop('username', None)
         return flask.redirect(flask.url_for('login'))
+
+
+class ShowGraph(flask.views.MethodView):
+    def get(self):
+        print('Show Graph invoked!')
+        return flask.render_template('show_graph.html')
 
 #routes
 tweetsuite.add_url_rule('/',
@@ -62,9 +52,10 @@ tweetsuite.add_url_rule('/result/',
 tweetsuite.add_url_rule('/logout',
                  view_func=Logout.as_view('logout'),
                  methods=['GET'])
-tweetsuite.add_url_rule('/showtweets',
-                 view_func=ShowTweets.as_view('showtweets'),
+tweetsuite.add_url_rule('/showgraph',
+                 view_func=ShowGraph.as_view('showgraph'),
                  methods=['GET'])
+
 
 #handler to page not found - or incorrect URL
 @tweetsuite.errorhandler(404)

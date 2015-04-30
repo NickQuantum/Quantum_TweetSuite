@@ -17,9 +17,11 @@ class Login(flask.views.MethodView):
         return flask.render_template('login.html')
 
     def post(self):
+        print('this is ' + _platform + ' system')
         if _platform == "linux" or _platform == "linux2":
             # linux
             users = None
+            print('this is ' + _platform + ' system')
         elif _platform == "win32":
             # Windows...
             users = {'admin@admin.com':'admin'} 
@@ -33,15 +35,18 @@ class Login(flask.views.MethodView):
         passwd = flask.request.form['passwd']
         
 
-
+        print('Before accessing DynamoDB')
         try:
             users = Table('Users')
             user = users.get_item(EmailId=username,Password=passwd)
         except:
             user = None
+            print('Accessing DynamoDB failed')
             pass
         
+        print('before checking the login credentials')
         if username in users and users[username] == passwd and _platform == "win32" or user and _platform == "linux":
+            print('login successful')
             flask.session['username'] = username
             ## create API Object using Twitter access keys
             ##one time

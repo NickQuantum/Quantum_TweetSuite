@@ -16,10 +16,10 @@ class Result(flask.views.MethodView):
     def get(self):
         if _platform == "linux" or _platform == "linux2":
             # linux
-            tweets_data_path = '/tmp/tweet_search.txt' 
+            tweets_data_path = '/tmp/'+flask.session['uid']+'.txt' 
         elif _platform == "win32":
             # Windows...
-            tweets_data_path = 'C://Users//geral_000//Documents//workarea//projects//myflaskrapp//static//tweets//tweet_search.txt'  
+            tweets_data_path = 'C://Users//geral_000//Documents//workarea//projects//myflaskrapp//static//tweets//'+flask.session['uid']+'.txt' 
         print('finished reading file')
         tweets_data = []
         tweets_file = open(tweets_data_path, "r")

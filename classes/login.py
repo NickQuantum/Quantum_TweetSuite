@@ -15,6 +15,13 @@ sapi = 0
 
 class Login(flask.views.MethodView):
     def get(self):
+        try:
+            if flask.session['username']:
+                print(flask.session['username'])
+                return flask.redirect(flask.url_for('search'))
+        except:
+            flask.session.pop('username', None)
+            flask.session.pop('uid',None)
         return flask.render_template('login.html')
 
     def post(self):

@@ -28,6 +28,7 @@ tweetsuite.secret_key = "bacon"
 class Logout(flask.views.MethodView):
     def get(self):
         flask.session.pop('username', None)
+        flask.session.pop('uid',None)
         return flask.redirect(flask.url_for('login'))
 
 

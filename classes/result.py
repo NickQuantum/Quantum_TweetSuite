@@ -17,9 +17,11 @@ class Result(flask.views.MethodView):
         if _platform == "linux" or _platform == "linux2":
             # linux
             tweets_data_path = '/tmp/'+flask.session['uid']+'.txt' 
+            filename = 'tweetgraph'
         elif _platform == "win32":
             # Windows...
             tweets_data_path = 'static//tweets//'+flask.session['uid']+'.txt' 
+            filename = flask.session['uid']
         print('finished reading file')
         tweets_data = []
         tweets_file = open(tweets_data_path, "r")
@@ -44,4 +46,4 @@ class Result(flask.views.MethodView):
         print('finished reading from file')
         tweets = tweets_data
         print('assigned data to file parameter')
-        return flask.render_template('show_table.html', tweets=tweets, filename=flask.session['uid'])
+        return flask.render_template('show_table.html', tweets=tweets, filename=filename)

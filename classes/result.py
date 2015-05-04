@@ -19,7 +19,7 @@ class Result(flask.views.MethodView):
             tweets_data_path = '/tmp/'+flask.session['uid']+'.txt' 
         elif _platform == "win32":
             # Windows...
-            tweets_data_path = 'C://Users//geral_000//Documents//workarea//projects//myflaskrapp//static//tweets//'+flask.session['uid']+'.txt' 
+            tweets_data_path = 'static//tweets//'+flask.session['uid']+'.txt' 
         print('finished reading file')
         tweets_data = []
         tweets_file = open(tweets_data_path, "r")
@@ -44,4 +44,4 @@ class Result(flask.views.MethodView):
         print('finished reading from file')
         tweets = tweets_data
         print('assigned data to file parameter')
-        return flask.render_template('show_table.html', tweets=tweets)
+        return flask.render_template('show_table.html', tweets=tweets, filename=flask.session['uid'])

@@ -35,7 +35,7 @@ class Search(flask.views.MethodView):
             filepath = '/tmp/'+flask.session['uid']+'.txt' 
         elif _platform == "win32":
             # Windows...
-            filepath = 'C://Users//geral_000//Documents//workarea//projects//myflaskrapp//static//tweets//'+flask.session['uid']+'.txt' 
+            filepath = 'static//tweets//'+flask.session['uid']+'.txt'  
 
         print('file name =' + flask.session['username'])
 
@@ -150,7 +150,7 @@ class Search(flask.views.MethodView):
             filepathjson = '/tmp/tweetgraph.json' 
         elif _platform == "win32":
             # Windows...
-            filepathjson = 'static//tweetgraph.json' 
+            filepathjson = 'static//tweets//'+flask.session['uid']+'.json' 
             
         try:
             print('before readwrite')

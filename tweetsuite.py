@@ -37,8 +37,22 @@ class ShowGraph(flask.views.MethodView):
         print('Show Graph invoked!')
         return flask.render_template('show_graph.html')
 
+class MainLine(flask.views.MethodView):
+    def get(self):
+        print('Index Page with GET invoked!')
+        #return flask.render_template('index.html')
+        return flask.redirect(flask.url_for('login'))
+    def post(self):
+        print('Index Page with POST invoked!')
+        #return flask.render_template('index.html')
+        return flask.redirect(flask.url_for('login'))
+
+
 #routes
 tweetsuite.add_url_rule('/',
+                 view_func=MainLine.as_view('index'),
+                 methods=["Get","POST"])
+tweetsuite.add_url_rule('/login',
                  view_func=Login.as_view('login'),
                  methods=["Get","POST"])
 tweetsuite.add_url_rule('/search/',

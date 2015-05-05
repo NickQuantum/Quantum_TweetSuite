@@ -32,7 +32,7 @@ class Search(flask.views.MethodView):
         searched_tweets = [status for status in tweepy.Cursor(api.search, q=query).items(max_tweets)]
         if _platform == "linux" or _platform == "linux2":
             # linux
-            filepath = '/tmp/'+flask.session['uid']+'.txt' 
+            filepath = 'static/tweets/'+flask.session['uid']+'.txt'  
         elif _platform == "win32":
             # Windows...
             filepath = 'static//tweets//'+flask.session['uid']+'.txt'  

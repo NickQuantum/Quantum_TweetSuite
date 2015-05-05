@@ -147,7 +147,8 @@ class Search(flask.views.MethodView):
         ##nx.write_gexf(g, 'C://Temp//test.gexf')
         if _platform == "linux" or _platform == "linux2":
             # linux
-            filepathjson = '/tmp/tweetgraph.json' 
+            filepathjson = 'static/tweets/'+flask.session['uid']+'.json'  ##'/tmp/tweetgraph.json' 
+            print(filepathjson)
         elif _platform == "win32":
             # Windows...
             filepathjson = 'static//tweets//'+flask.session['uid']+'.json' 

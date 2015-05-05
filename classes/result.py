@@ -17,7 +17,8 @@ class Result(flask.views.MethodView):
         if _platform == "linux" or _platform == "linux2":
             # linux
             tweets_data_path = '/tmp/'+flask.session['uid']+'.txt' 
-            filename = 'tweetgraph'
+            filename = flask.session['uid'] ##'tweetgraph'
+            print('result json filename in result.py  ' + filename)
         elif _platform == "win32":
             # Windows...
             tweets_data_path = 'static//tweets//'+flask.session['uid']+'.txt' 

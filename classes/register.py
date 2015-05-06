@@ -2,7 +2,7 @@
 """
 Created on Thu Apr 16 01:03:36 2015
 
-@author: geral_000
+@author: Quantum Solutions
 """
 import flask, flask.views
 

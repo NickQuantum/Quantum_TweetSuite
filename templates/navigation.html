@@ -1,0 +1,29 @@
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="{{url_for('search')}}" style="color:#;"><b>Tweet Suite</b></a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+              <ul class="nav navbar-nav navbar-right navbar-user">
+                <li>
+                   	<form action="{{url_for('search')}}" method="post" class= "form-inline" style="padding-top:10px;">
+                          <div class="form-group">
+                            <input type="text" class="form-control" id="Query" name="Query" placeholder="Enter keywords" required>
+                          </div>
+                          <button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
+                    </form>				
+				</li>	
+				<li> &nbsp; </li>
+                <li><span class="navbar-brand" style="color:#;"><i>{{session['username']}}!</i></span></li>	
+				<li> &nbsp;</li>
+                <li><a href="{{url_for('logout')}}" class="navbar-brand" style="color:#;"><i class="fa fa-power-off"></i></a></li>	
+              </ul>
+            </div><!--/.nav-collapse -->
+          </div>
+        </nav>

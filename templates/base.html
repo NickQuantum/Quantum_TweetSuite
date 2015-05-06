@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="Twitter Analytics">
         <meta name="author" content="Quantum Solutions">
-        <title>My Flask Page</title>
+        <title>Quantum Solutions - Tweet Suite</title>
         <!-- Custom styles for this template -->
         <link rel="stylesheet" type="text/css" href="/static/signin.css" />
         <link rel="stylesheet" type="text/css" href="/static/style.css" />
@@ -18,19 +18,23 @@
 
         <link rel="icon" href="/static/favicon.ico">
 	</head>
-	<body>
-        
-        {%block nav %}{% endblock %}
-
-        {% block body %}{% endblock %}
-
-        <div class="alert alert-danger" role="alert" id="flashed" style="float:left;" >
-        	{% with messages = get_flashed_messages() %}
-        		{% for message in messages %}
-                    {{message}}
-                {% endfor %}
-            {% endwith %}
-        </div> 
-        {%block footer %}{% endblock %}
+	<body id="home">
+		{%block nav %}{% endblock %}
+		{% block body %}{% endblock %}
+		{% with messages = get_flashed_messages() %}
+			{% if messages %}
+				<div class="alert alert-danger" role="alert" id="flashed" style="float:left;" > 
+				<ul class=flashes>
+				{% for message in messages %}
+					<li>{{ message | safe }} </li>
+				{% endfor %}
+				</ul>
+				</div>
+			{% endif %}
+		{% endwith %}
+		<div class="footer visible-lg">
+			{%block footer %}{% endblock %}
+		</div> <!-- footer -->
+		</div>
 	</body>
 </html>

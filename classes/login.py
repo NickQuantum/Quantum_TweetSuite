@@ -2,7 +2,7 @@
 """
 Created on Thu Apr 16 00:54:02 2015
 
-@author: Gerald Varghese
+@author: Quantum Solutions
 """
 import flask, flask.views
 import tweepy

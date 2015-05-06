@@ -3,25 +3,22 @@
     {% if 'username' in session %}
         <h1>Session is active</h1>
     {% else %}
-    <div class="col-lg-12" style="margin-top:-50px; color:white; background-color: black;">
+    <div class="col-lg-4" style="margin-top:-50px; color:white; background-color: black;"> <!-- cadetblue -->
     <h1>TweetSuite</h1>
     <p>Tweets are conversations<br>Explore and analyze the tweets and make them work for you.</p>
-    </div>
-        <div class="col-lg-12" style="margin-top: 0px;  background-color: black;"> 
-            <span>
-                <form class="form-signin" action="{{url_for('login')}}" method="post">
-                    <label for="inputEmail" class="sr-only">Email address</label>
-                    <input type="email" name = "username" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-                    <label for="inputPassword" class="sr-only">Password</label>
-                    <input type="password" name="passwd" id="inputPassword" class="form-control" placeholder="Password" required>
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-                    <div class="">
-                        <h4 class="text-right"><a  href="{{url_for('register')}}">Create account</a></h4>
-                    </div>
-                </form>
-                <img src="http://cdn3.wccftech.com/wp-content/uploads/2013/05/GTX-770-SLI.jpg" style="height: 400px; margin-top:-100px; margin-left: 100px;padding-left: 100px; width:800px">
-            </span>
-        </div>
+
+			<form class="form-signin" action="{{url_for('login')}}" method="post">
+				<label for="inputEmail" class="sr-only">Email address</label>
+				<input type="email" name = "username" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+				<label for="inputPassword" class="sr-only">Password</label>
+				<input type="password" name="passwd" id="inputPassword" class="form-control" placeholder="Password" required>
+				<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+				<div class="">
+					<h4 class="text-right"><a  href="{{url_for('register')}}">Create account</a></h4>
+				</div>
+			</form>
+	</div>
+
     {% endif %}
 {% endblock %}
 

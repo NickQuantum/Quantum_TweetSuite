@@ -24,30 +24,13 @@ class Login(flask.views.MethodView):
             flask.session.pop('uid',None)
         return flask.render_template('login.html')
 
-    def post(self):
+    def isValidUser(self, username, passwd):
         print('this is ' + _platform + ' system')
-        if _platform == "linux" or _platform == "linux2":
-            # linux
-            users = None
-        elif _platform == "win32":
-            # Windows...
-            users = {'admin@admin.com':'admin'} 
-            print('windows credentials setup complete')
+        users = {'admin@admin.com':'admin'} 
 
-        required = ['username','passwd']
-        for r in required:
-            if r not in flask.request.form:
-                flask.flash("Error: {0} is required.".format(r))
-                return flask.redirect(flask.url_for('login'))
-        username = flask.request.form['username']
-        print('username: ' + username)
-        passwd = flask.request.form['passwd']
-        print('password: ' + passwd)
-        
-
-        print('Before accessing DynamoDB')
         if _platform == "linux" or _platform == "linux2":
             try:
+                print('Before accessing DynamoDB')
                 users = Table('Users')
                 validuser = users.get_item(EmailId=username,Password=passwd)
                 print('Linux - dynamodb authorization successful')
@@ -66,9 +49,21 @@ class Login(flask.views.MethodView):
             except:
                 validuser = None
                 print('local authentication failed')
+        return validuser
+
+    def post(self):
+        required = ['username','passwd']
+        for r in required:
+            if r not in flask.request.form:
+                flask.flash("Error: {0} is required.".format(r))
+                return flask.redirect(flask.url_for('login'))
+        username = flask.request.form['username']
+        print('username: ' + username)
+        passwd = flask.request.form['passwd']
+        print('password: ' + passwd)
         
-        print(validuser)        
         print('before checking the login credentials')
+        validuser = self.isValidUser(username, passwd)
 
         if validuser:
             print('login successful')
@@ -93,3 +88,4 @@ class Login(flask.views.MethodView):
             flask.flash("Username doesn't exist or incorrect password")
             return flask.redirect(flask.url_for('login'))
 
+        

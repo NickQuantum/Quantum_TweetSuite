@@ -1,8 +1,8 @@
 branch-defaults:
   master:
-    environment: myflaskrapp-dev
+    environment: qstweetsuite
 global:
-  application_name: myflaskrapp
+  application_name: qstweetsuite
   default_ec2_keyname: ts_keypair
   default_platform: Python 2.7
   default_region: us-east-1

@@ -2,7 +2,7 @@
 """
 Created on Thu Apr 16 01:01:00 2015
 
-@author: Gerald Varghese
+@author: Quantum Solutions
 """
 import flask, flask.views
 import functools

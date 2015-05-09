@@ -26,7 +26,7 @@ class Search(flask.views.MethodView):
         #query = 'python'
         print('Search POST called')
         query = flask.request.form['Query']
-        max_tweets = 50
+        max_tweets = 100
 
         api = login.sapi
         searched_tweets = [status for status in tweepy.Cursor(api.search, q=query).items(max_tweets)]
@@ -68,6 +68,8 @@ class Search(flask.views.MethodView):
         retweet_user_list = []
         mention_user_listoflists = []
         mention_user_list = []
+        complete_user_list = []
+        chunks = []
         tweets_file = open(filepath, "r")
         
         for line in tweets_file:
@@ -106,7 +108,12 @@ class Search(flask.views.MethodView):
             for mention_user_id in mention_user_ids:
                 mention_user_list.append(mention_user_id)
             
-        username_dict = get_user_info(user_list + retweet_user_list + mention_user_list)
+        # Added code to break into chunks of 100 as the api.looup_users has limit of 100 at a time
+        ##username_dict = get_user_info(user_list + retweet_user_list + mention_user_list)
+        complete_user_list = user_list + retweet_user_list + mention_user_list
+        chunks=[complete_user_list[x:x+100] for x in xrange(0, len(complete_user_list), 100)]
+        for i in range(len(chunks)):
+            username_dict = get_user_info(chunks[i])
             
         print mention_user_list
                 

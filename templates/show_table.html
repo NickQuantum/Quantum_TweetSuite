@@ -1,13 +1,8 @@
 {% extends "base.html" %}
 
 {% block body %}
-	<div class="row">
-		<div id='svg' class="col col-lg-6" style="margin-top:40px;">
-			{% include 'show_sna_graph.html' %}
-		</div>
-		<span class="col col-lg-6"> <!-- this needs to be fixed -->
-			<img src=""> </img>
-		</span>
+	<div id='svg' class="col col-lg-12 text-center " style="margin-top:0px;">
+		{% include 'show_sna_graph.html' %}
 	</div>
     <div class="container" style="margin-top:20px;">
 

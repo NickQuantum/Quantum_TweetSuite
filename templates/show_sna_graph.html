@@ -12,8 +12,8 @@
 	<script src="http://d3js.org/d3.v3.min.js"></script>
 
 	<script>
-		var width = 600,
-			height = 480;
+		var width = 1360,
+			height = 700;
 
 		var color = d3.scale.category20();
 
@@ -39,12 +39,12 @@
 			  .style("stroke-width", function(d) { return Math.sqrt(d.weight); });
 
 		  var node = svg.selectAll(".node")
-			  .data(graph.nodes)
-			.enter().append("circle")
-			  .attr("class", "node")
-			  .attr("r", function(d) { return d.weight*2 + 8; })
-			  .style("fill", function(d) { return color(d.weight); })
-			  .call(force.drag);
+				.data(graph.nodes)
+				.enter().append("circle")
+				.attr("class", "node")
+				.attr("r", function(d) { if (d.weight > 0) return d.weight*2 + 8 ; else return 0; })
+				.style("fill", function(d) { return color(d.weight); })
+				.call(force.drag);
 
 		  node.append("title")
 			  .text(function(d) { return d.screen_name; });

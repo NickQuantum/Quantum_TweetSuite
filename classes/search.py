@@ -64,6 +64,9 @@ class Search(flask.views.MethodView):
         retweet_user_dict = {}
         mention_user_dict = {}
         username_dict = {}
+        tweet_dict = {}
+        retweet_dict = {}
+        mention_tweet_dict = {}
         user_list = []
         retweet_user_list = []
         mention_user_listoflists = []
@@ -76,18 +79,23 @@ class Search(flask.views.MethodView):
                 try:
                     tweet = json.loads(line)
                     #hashtags = [hashtag['text'] for hashtag in tweet['entities']['hashtags']]
-                    user_id = tweet['user']['id']            
+                    user_id = tweet['user']['id']
+                    tweet_dict[user_id] = tweet['text']
                     user_list.append(user_id)
                     if 'retweeted_status' in tweet: 
                        
                         #pprint.pprint(tweet)
-                        retweet_user_id = tweet['retweeted_status']['user']['id']                
+                        retweet_user_id = tweet['retweeted_status']['user']['id']
+                        retweet = tweet['retweeted_status']['text']
                         retweet_user_list.append(retweet_user_id)
                         retweet_user_dict[user_id] = retweet_user_id
+                        retweet_dict[user_id] = retweet
                     if 'entities' in tweet and len(tweet['entities']['user_mentions']) > 0:
                          mention_user_ids = [mention['id'] for mention in tweet['entities']['user_mentions']]
+                         mention_tweet = tweet['text']  
                          mention_user_listoflists.append(mention_user_ids)
                          mention_user_dict[user_id] = mention_user_ids
+                         mention_tweet_dict[user_id] = mention_tweet
                     #pprint.pprint(user_list)
                     #print(tweets_data)
                 except:
@@ -122,10 +130,16 @@ class Search(flask.views.MethodView):
         def add_node_tw(n, weight=None, time=None, source=None):
             if not g.has_node(n):
                 screen_name = username_dict.get(n)
+                if n in retweet_dict:
+                    tweet = retweet_dict.get(n)
+                elif n in mention_tweet_dict:
+                    tweet = mention_tweet_dict.get(n)
+                else:
+                    tweet = tweet_dict.get(n)
                 g.add_node(n)
                 g.node[n]['weight'] = 1
                 g.node[n]['screen_name'] = screen_name
-            
+                g.node[n]['tweet'] = tweet            
             else:
                 g.node[n]['weight']+=1
                 

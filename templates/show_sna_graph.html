@@ -19,7 +19,7 @@
 
 		var force = d3.layout.force()
 			.charge(-120)
-			.linkDistance(30)
+			.linkDistance(30) //(function(d) { if (d.weight > 2) return d.weight*80 ; else return 60; })
 			.size([width, height]);
 
 		var svg = d3.select("body").append("svg")
@@ -47,7 +47,7 @@
 				.call(force.drag);
 
 		  node.append("title")
-			  .text(function(d) { return d.screen_name; });
+			  .text(function(d) { if (d.tweet != null) return d.tweet; else return d.screen_name; });
 
 		  var texts = svg.selectAll("text.label")
 						.data(graph.nodes)

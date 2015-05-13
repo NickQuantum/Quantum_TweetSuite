@@ -1,9 +1,54 @@
 {% extends "base.html" %}
 
 {% block body %}
-	<div id='svg' class="col col-lg-12 text-center " style="margin-top:40px;">
-		{% include 'show_sna_graph.html' %}
-	</div>
+<style type="text/css">
+	.qs-nav-tab{
+		margin: 20px;
+	}
+</style>
+
+
+
+<div class="qs-nav-tab">
+    <ul class="nav nav-pills">
+        <li class="active"><a data-toggle="tab" href="#sectionA">Tweet Sentiment</a></li>
+        <li><a data-toggle="tab" href="#svg" onclick="showsnagraph();">User Network</a></li>
+        <li><a data-toggle="tab" href="#sectionC" onclick="showtweettable();">Tweets Table</a></li>
+        <!-- <li class="dropdown">
+            <a data-toggle="dropdown" class="dropdown-toggle" href="#">Dropdown <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li><a data-toggle="tab" href="#dropdown1">Dropdown1</a></li>
+                <li><a data-toggle="tab" href="#dropdown2">Dropdown2</a></li>
+            </ul>
+        </li> -->
+    </ul>
+    <div class="tab-content">
+        <div id="sectionA" class="tab-pane fade in active">
+            <h3>Tweet Sentiment</h3>
+            <p>Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui. Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth.</p>
+			
+        </div>
+        <div id="svg" class="tab-pane fade">
+            <h3>User Network</h3>
+            <p>Vestibulum nec erat eu nulla rhoncus fringilla ut non neque. Vivamus nibh urna, ornare id gravida ut, mollis a magna. Aliquam porttitor condimentum nisi, eu viverra ipsum porta ut. Nam hendrerit bibendum turpis, sed molestie mi fermentum id. Aenean volutpat velit sem. Sed consequat ante in rutrum convallis. Nunc facilisis leo at faucibus adipiscing.</p>
+			{% include 'show_sna_graph.html' %}
+        </div>
+        <div id="sectionC" class="tab-pane fade">
+            <h3>Tweets Table</h3>
+            <p>Vestibulum nec erat eu nulla rhoncus fringilla ut non neque. Vivamus nibh urna, ornare id gravida ut, mollis a magna. Aliquam porttitor condimentum nisi, eu viverra ipsum porta ut. Nam hendrerit bibendum turpis, sed molestie mi fermentum id. Aenean volutpat velit sem. Sed consequat ante in rutrum convallis. Nunc facilisis leo at faucibus adipiscing.</p>
+        </div>
+        <!--<div id="dropdown1" class="tab-pane fade">
+            <h3>Dropdown 1</h3>
+            <p>WInteger convallis, nulla in sollicitudin placerat, ligula enim auctor lectus, in mollis diam dolor at lorem. Sed bibendum nibh sit amet dictum feugiat. Vivamus arcu sem, cursus a feugiat ut, iaculis at erat. Donec vehicula at ligula vitae venenatis. Sed nunc nulla, vehicula non porttitor in, pharetra et dolor. Fusce nec velit velit. Pellentesque consectetur eros.</p>
+        </div>
+        <div id="dropdown2" class="tab-pane fade">
+            <h3>Dropdown 2</h3>
+            <p>Donec vel placerat quam, ut euismod risus. Sed a mi suscipit, elementum sem a, hendrerit velit. Donec at erat magna. Sed dignissim orci nec eleifend egestas. Donec eget mi consequat massa vestibulum laoreet. Mauris et ultrices nulla, malesuada volutpat ante. Fusce ut orci lorem. Donec molestie libero in tempus imperdiet. Cum sociis natoque penatibus et magnis.</p>
+        </div> -->
+    </div>
+</div>
+
+	
     <div class="container" style="margin-top:20px;">
 
 <!--
@@ -16,7 +61,7 @@
     </thead>
 </table> -->
 	
-    <table class="table table-hover table-bordered table-striped">
+   <table class="table table-hover table-bordered table-striped" id="tweetstable">
        <tr> 
         <th>Id</th>
         <th>User</th>
@@ -31,9 +76,29 @@
         <td>{{ "#"+ " #".join(tweets[i][2]) }}</td>
       </tr>
       {% endfor %}
-    </table>
-    </div>
+    </table> 
+    </div>	<!-- end container -->
 
+<script>
+	
+	function initialize(){
+		$('#tweetstable').hide();
+		d3.select("#snagraph")
+		.remove();
+	}
+	initialize();
+	
+	function showtweettable(){
+		initialize();
+		$('#tweetstable').show();
+	};
+	
+	function showsnagraph(){
+		initialize();
+		drawsnagraph();
+	};
+</script>
+	
 {% endblock %}
 
 {% block nav %}

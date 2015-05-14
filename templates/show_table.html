@@ -1,54 +1,144 @@
 {% extends "base.html" %}
 
 {% block body %}
-<style type="text/css">
-	.qs-nav-tab{
-		margin: 20px;
-	}
-</style>
 
 
-
-<div class="qs-nav-tab">
-    <ul class="nav nav-pills">
-        <li class="active"><a data-toggle="tab" href="#sectionA">Tweet Sentiment</a></li>
-        <li><a data-toggle="tab" href="#svg" onclick="showsnagraph();">User Network</a></li>
-        <li><a data-toggle="tab" href="#sectionC" onclick="showtweettable();">Tweets Table</a></li>
-        <!-- <li class="dropdown">
-            <a data-toggle="dropdown" class="dropdown-toggle" href="#">Dropdown <b class="caret"></b></a>
-            <ul class="dropdown-menu">
-                <li><a data-toggle="tab" href="#dropdown1">Dropdown1</a></li>
-                <li><a data-toggle="tab" href="#dropdown2">Dropdown2</a></li>
-            </ul>
-        </li> -->
-    </ul>
-    <div class="tab-content">
-        <div id="sectionA" class="tab-pane fade in active">
-            <h3>Tweet Sentiment</h3>
-            <p>The scatter plot shows the sentiment of the tweets. The red color denotes negative sentiment and green positive. The horizontal axis shows the commitment of the positive sentiment and the vertival axis show the negative.</p>
-			
+<!-- Icon Panels - START -->
+<div class="container" style="margin-top:40px;">
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-lg-4">
+            <div class="box">
+                <div class="icon">
+                    <div class="image"><a href="#" onclick="showtweettable();" title="List of tweets"> <span class="glyphicon glyphicon-list-alt btn-lg white"></span></a></div>
+                    <div class="info">
+                        <h3 class="title">Tweets</h3>
+                        <div class="more">
+                        </div>
+                    </div>
+                </div>
+                <div class="space"></div>
+            </div>
         </div>
-        <div id="svg" class="tab-pane fade">
-            <h3>User Network</h3>
-            <p>The network graph shows the relation between the tweet users. It connects the users with mentions and retweets. The circle size is in direct relation to the connection each user has.</p>
-			{% include 'show_sna_graph.html' %}
+        <div class="col-xs-12 col-sm-6 col-lg-4">
+            <div class="box">
+                <div class="icon">
+                    <div class="image"><a href="#svg" onclick="showsnagraph();" title="Key Influencers"> <span class="glyphicon glyphicon-user btn-lg white"></span></a></div>
+                    <div class="info">
+                        <h3 class="title">Influencers</h3>
+                        <div class="more">
+                        </div>
+                    </div>
+                </div>
+                <div class="space"></div>
+            </div>
         </div>
-        <div id="sectionC" class="tab-pane fade">
-            <h3>Tweets Table</h3>
-            <p>This table lists all the tweets that has been processed for this search keyword. All the tweets are listed for reference.</p>
+        <div class="col-xs-12 col-sm-6 col-lg-4">
+            <div class="box">
+                <div class="icon">
+                    <div class="image"><a href="#" onclick="showsentimentgraph();" title="Sentiment Analysis"><span class="glyphicon glyphicon-heart btn-lg white"></span></a></div>
+                    <div class="info">
+                        <h3 class="title">Sentiment</h3>
+                        <div class="more">
+                        </div>
+                    </div>
+                </div>
+                <div class="space"></div>
+            </div>
         </div>
-        <!--<div id="dropdown1" class="tab-pane fade">
-            <h3>Dropdown 1</h3>
-            <p>WInteger convallis, nulla in sollicitudin placerat, ligula enim auctor lectus, in mollis diam dolor at lorem. Sed bibendum nibh sit amet dictum feugiat. Vivamus arcu sem, cursus a feugiat ut, iaculis at erat. Donec vehicula at ligula vitae venenatis. Sed nunc nulla, vehicula non porttitor in, pharetra et dolor. Fusce nec velit velit. Pellentesque consectetur eros.</p>
-        </div>
-        <div id="dropdown2" class="tab-pane fade">
-            <h3>Dropdown 2</h3>
-            <p>Donec vel placerat quam, ut euismod risus. Sed a mi suscipit, elementum sem a, hendrerit velit. Donec at erat magna. Sed dignissim orci nec eleifend egestas. Donec eget mi consequat massa vestibulum laoreet. Mauris et ultrices nulla, malesuada volutpat ante. Fusce ut orci lorem. Donec molestie libero in tempus imperdiet. Cum sociis natoque penatibus et magnis.</p>
-        </div> -->
     </div>
 </div>
 
-	
+
+
+<style>
+.white {
+    color: white;
+}
+
+.btn-lg {
+    font-size: 38px;
+    line-height: 1.33;
+    border-radius: 6px;
+}
+
+.box > .icon {
+    text-align: center;
+    position: relative;
+}
+
+.box > .icon > .image {
+    position: relative;
+    z-index: 2;
+    margin: auto;
+    width: 88px;
+    height: 88px;
+    border: 7px solid white;
+    line-height: 88px;
+    border-radius: 50%;
+    background: #63B76C;
+    vertical-align: middle;
+}
+
+.box > .icon:hover > .image {
+    border: 4px solid black;
+}
+
+.box > .icon > .image > i {
+    font-size: 40px !important;
+    color: #fff !important;
+}
+
+.box > .icon:hover > .image > i {
+    color: white !important;
+}
+
+.box > .icon > .info {
+    margin-top: -24px;
+    background: rgba(0, 0, 0, 0.04);
+    border: 1px solid #e0e0e0;
+    padding: 15px 0 10px 0;
+}
+
+    .box > .icon > .info > h3.title {
+        color: #222;
+        font-weight: 500;
+    }
+
+    .box > .icon > .info > p {
+        color: #666;
+        line-height: 1.5em;
+        margin: 20px;
+    }
+
+.box > .icon:hover > .info > h3.title, .box > .icon:hover > .info > p, .box > .icon:hover > .info > .more > a {
+    color: #222;
+}
+
+.box > .icon > .info > .more a {
+    color: #222;
+    line-height: 12px;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+.box > .icon:hover > .info > .more > a {
+    color: #000;
+    padding: 6px 8px;
+    border-bottom: 4px solid black;
+}
+
+.box .space {
+    height: 30px;
+}
+</style>
+
+<!-- Icon Panels - END -->
+
+<div id='svg' class="col col-lg-12 text-center " style="margin-top:40px;">
+
+	{% include 'show_sna_graph.html' %}
+</div>
+
     <div class="container" style="margin-top:20px;">
 
 <!--
@@ -61,12 +151,12 @@
     </thead>
 </table> -->
 	
-   <table class="table table-hover table-bordered table-striped" id="tweetstable">
+   <table class="table table-hover table-bordered table-striped" id="tweetstable" style="border-width:2px;">
        <tr> 
-        <th>Id</th>
-        <th>User</th>
-        <th>Text</th>
-        <th>Hashtag</th>
+        <th style="font-size:18px;">Id</th>
+        <th style="font-size:18px;">User</th>
+        <th style="font-size:18px;">Text</th>
+        <th style="font-size:18px;">Hashtag</th>
       </tr>
     {% for i in range(tweets|length) %}
       <tr>
@@ -81,20 +171,18 @@
 
 <script>
 	
-	function initialize(){
+	function showsentimentgraph(){
 		$('#tweetstable').hide();
-		d3.select("#snagraph")
-		.remove();
+		d3.select("#snagraph").remove();
 	}
-	initialize();
 	
 	function showtweettable(){
-		initialize();
+		d3.select("#snagraph").remove();
 		$('#tweetstable').show();
 	};
 	
 	function showsnagraph(){
-		initialize();
+		$('#tweetstable').hide();
 		drawsnagraph();
 	};
 </script>

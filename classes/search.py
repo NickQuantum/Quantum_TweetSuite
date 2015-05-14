@@ -26,7 +26,7 @@ class Search(flask.views.MethodView):
         #query = 'python'
         print('Search POST called')
         query = flask.request.form['Query']
-        max_tweets = 100
+        max_tweets = 200
 
         api = login.sapi
         searched_tweets = [status for status in tweepy.Cursor(api.search, q=query).items(max_tweets)]
@@ -125,7 +125,7 @@ class Search(flask.views.MethodView):
             
         print mention_user_list
                 
-        print username_dict
+        #print username_dict
                 
         def add_node_tw(n, weight=None, time=None, source=None):
             if not g.has_node(n):

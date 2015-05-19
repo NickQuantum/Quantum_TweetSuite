@@ -24,7 +24,7 @@
 		var force = d3.layout.force()
 			.charge(-120)  //-120
 			.linkStrength(0.5)  //1
-			.linkDistance(30) //(function(d) { if (d.weight > 2) return d.weight*80 ; else return 60; })
+			.linkDistance(function(d) { if (d.weight > 2) return d.weight*80 ; else return 50; })//(30) 
 			.size([width, height]);
 
 		var svg = d3.select("body").append("svg")

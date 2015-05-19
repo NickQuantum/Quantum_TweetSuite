@@ -14,6 +14,12 @@ from utils import login_required
 class Result(flask.views.MethodView):
     @login_required
     def get(self):
+        
+        #print('Search POST called')
+        #query = flask.request.form['Query']        
+        
+        #if query != blanks:
+        
         if _platform == "linux" or _platform == "linux2":
             # linux
             tweets_data_path = 'static/tweets/'+flask.session['uid']+'.txt' 
@@ -47,4 +53,6 @@ class Result(flask.views.MethodView):
         print('finished reading from file')
         tweets = tweets_data
         print('assigned data to file parameter')
+
+        
         return flask.render_template('show_table.html', tweets=tweets, filename=filename)

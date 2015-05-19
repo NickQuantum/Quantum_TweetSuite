@@ -1,43 +1,19 @@
 {% extends "base.html" %}
 {% block body %}
+<!--
 <div class="container-fluid" style="margin-top:50px;">
                    	<form action="{{url_for('search')}}" method="post" class= "form-inline">
                           <div class="form-group">
                             <label for="Query">Query</label>
                             <input type="text" class="form-control" id="Query" name="Query" placeholder="Enter keywords" required>
                           </div>
-                          <div class="form-group">
-                            <label for="fromDate">From: </label>
-                            <input type="date" class="form-control" id="fromDate" name="fromDate" placeholder="mm-dd-yy">
-                          </div>
-                          <div class="form-group">
-                            <label for="toDate">To: </label>
-                            <input type="date" class="form-control" id="toDate" name="toDate" placeholder="mm-dd-yy">
-                          </div>
                           <button type="submit" class="btn btn-default">Submit</button><i class="glyphicon glyphicon-search"></i>
-                    	</form>
+                    </form>
 </div>
+-->
 {% endblock %}
+
+
 {% block nav %}
-        <nav class="navbar navbar-inverse navbar-fixed-top">
-          <div class="container">
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-              <a class="navbar-brand" href="{{url_for('search')}}">Tweet Suite</a>
-            </div>
-            <div id="navbar" class="collapse navbar-collapse">
-              <ul class="nav navbar-nav navbar-right navbar-user">
-                <li><a href="mailto:no-reply@gmail.com" class="navbar-brand" style="color:white;"><i class="glyphicon glyphicon-envelope"></i> Message</a></li>
-                <li><a href="{{url_for('search')}}" class="navbar-brand" style="color:white;"><i class="glyphicon glyphicon-search"></i> Search</a></li>	
-                <li><a href="{{url_for('logout')}}" class="navbar-brand" style="color:white;"><i class="fa fa-power-off"></i> Logout</a></li>	
-                <li><span class="navbar-brand" style="color:white;"><b>{{session['username']}}!</b></span></li>	
-              </ul>
-            </div><!--/.nav-collapse -->
-          </div>
-        </nav>
+	{% include 'navigation.html' %}
 {% endblock %}

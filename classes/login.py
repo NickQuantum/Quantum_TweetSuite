@@ -22,7 +22,7 @@ class Login(flask.views.MethodView):
         except:
             flask.session.pop('username', None)
             flask.session.pop('uid',None)
-        return flask.render_template('login.html')
+        return flask.render_template('index.html')
 
     def isValidUser(self, username, passwd):
         print('this is ' + _platform + ' system')

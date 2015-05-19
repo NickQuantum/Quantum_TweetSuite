@@ -7,6 +7,7 @@ Created on Thu Apr 16 00:58:09 2015
 import flask, flask.views
 import tweepy
 import json
+import os
 
 
 import login
@@ -18,6 +19,7 @@ from sys import platform as _platform
 class Search(flask.views.MethodView):
     @login_required
     def get(self):
+        flask.session.pop('query', None)
         return flask.render_template('search.html')
     
     @login_required    
@@ -26,6 +28,7 @@ class Search(flask.views.MethodView):
         #query = 'python'
         print('Search POST called')
         query = flask.request.form['Query']
+        flask.session['query'] = query
         max_tweets = 200
 
         api = login.sapi
@@ -38,6 +41,8 @@ class Search(flask.views.MethodView):
             filepath = 'static//tweets//'+flask.session['uid']+'.txt'  
 
         print('file name =' + flask.session['username'])
+        
+        ##os.remove(filepath)
 
         target = open(filepath, 'w')
         

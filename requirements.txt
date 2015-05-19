@@ -2,3 +2,7 @@ Flask==0.9
 Tweepy==3.3
 boto==2.38
 networkx==1.9
+nltk==3.0.2
+pandas==0.15.2
+pickle
+numpy==1.9.2

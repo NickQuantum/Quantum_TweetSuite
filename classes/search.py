@@ -12,6 +12,7 @@ import os
 
 import login
 from utils import login_required
+from findsentiment import process_sentiment
 from sys import platform as _platform
 
 
@@ -192,6 +193,12 @@ class Search(flask.views.MethodView):
             print('JSON FILE Creation FAILED')
         
 
-        
+        ## process sentiment
+        try:
+            print('before process sentiment')
+            process_sentiment();
+            print('after process sentiment')
+        except:
+            print('Process Sentiment FAILED')
         
         return flask.redirect(flask.url_for('result'))

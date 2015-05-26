@@ -53,14 +53,14 @@ def process_sentiment():
     
     ## Load the classifier
     # we open the file for reading
-    fileObject = open("classifier",'r')  
+    fileObject = open("static//sentiment//classifier",'r')  
     # load the object from the file into var b
     classifier = pickle.load(fileObject)
     fileObject.close()
     
     ## Load the bag of words
     # we open the file for reading
-    fileObject = open("bagofwords",'r')  
+    fileObject = open("static//sentiment//bagofwords",'r')  
     # load the object from the file into var b
     word_features = pickle.load(fileObject)
     fileObject.close()

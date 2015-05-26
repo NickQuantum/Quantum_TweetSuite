@@ -21,7 +21,8 @@ class Search(flask.views.MethodView):
     @login_required
     def get(self):
         flask.session.pop('query', None)
-        return flask.render_template('search.html')
+        return flask.redirect(flask.url_for('result'))
+        #return flask.render_template('search.html')
     
     @login_required    
     def post(self):

@@ -22,9 +22,9 @@
 		var color = d3.scale.category20();
 
 		var force = d3.layout.force()
-			.charge(-120)  //-120
-			.linkStrength(0.5)  //1
-			.linkDistance(function(d) { if (d.weight > 2) return d.weight*80 ; else return 50; })//(30) 
+			.charge(function(d) { if (d.weight < 3) return -70 ; else if (d.weight < 7) return -160;  else return -d.weight * d.weight - 150 ; })
+			.linkStrength(1)  //1
+			.linkDistance(function(d) { return 10*d.weight + 50; })
 			.size([width, height]);
 
 		var svg = d3.select("body").append("svg")
@@ -62,7 +62,7 @@
 				.data(graph.nodes)
 				.enter().append("circle")
 				.attr("class", "node")
-				.attr("r", function(d) { if (d.weight > 0) return d.weight*2 + 8 ; else return 0; })
+				.attr("r", function(d) { if ((d.weight > 0) && (d.weight <= 20)) return d.weight*2 + 5 ; else if (d.weight > 20) return 60;  else return 0; })
 				.style("fill", function(d) { return color(d.weight); })
 				.call(force.drag);
 
@@ -74,8 +74,8 @@
 						.enter().append("text")
 						.attr("class", "label")
 						.attr("fill", "black")
-						.style("font-size", function(d) {if(d.weight < 10) return (d.weight*5 + 10).toString().concat("px"); 
-																			else return "50px";})
+						.style("font-size", function(d) { if (d.weight < 10 ) return (d.weight*2 + 5)
+                            .toString().concat("px"); else if (d.weight < 20) return "25px" ; else return "40px" })
 						.text(function(d) {  if (d.weight > 1) return d.screen_name;  });
 
 

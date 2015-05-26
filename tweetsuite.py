@@ -29,22 +29,17 @@ class Logout(flask.views.MethodView):
         flask.session.pop('username', None)
         flask.session.pop('uid',None)
         flask.session.pop('query', None)
-        return flask.redirect(flask.url_for('login'))
+        return flask.render_template('index.html')
 
 class MainLine(flask.views.MethodView):
     def get(self):
         print('Index Page with GET invoked!')
-        return flask.render_template('index.html')
-        #return flask.redirect(flask.url_for('login'))
+        return flask.redirect(flask.url_for('logout'))
+        
     def post(self):
         print('Index Page with POST invoked!')
-        #return flask.render_template('index.html')
         return flask.redirect(flask.url_for('login'))
 
-class Splot(flask.views.MethodView):
-    def get(self):
-        print("inside get method of splot")
-        return flask.render_template('show_scatterplot.html')
 
 #routes
 tweetsuite.add_url_rule('/',
@@ -65,9 +60,7 @@ tweetsuite.add_url_rule('/result/',
 tweetsuite.add_url_rule('/logout',
                  view_func=Logout.as_view('logout'),
                  methods=['GET'])
-tweetsuite.add_url_rule('/splot',
-                 view_func=Splot.as_view('splot'),
-                 methods=['GET'])
+
 
 #handler to page not found - or incorrect URL
 @tweetsuite.errorhandler(404)

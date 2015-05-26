@@ -87,7 +87,7 @@ def process_sentiment():
         user = re.findall('@[^\s]+',tweet)
         xycoordinates= classifier.prob_classify(extract_features(tweet.split(),word_features))
         
-        print (xycoordinates._prob_dict)
+        #print (xycoordinates._prob_dict)
         
         retweeted_count = row['retweet_count']
         result= classifier.classify(extract_features(tweet.split(),word_features))

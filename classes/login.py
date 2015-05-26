@@ -5,11 +5,11 @@ Created on Thu Apr 16 00:54:02 2015
 @author: Quantum Solutions
 """
 import flask, flask.views
-import tweepy
-import uuid
+
 
 from boto.dynamodb2.table import Table
 from sys import platform as _platform
+from utils import settwitterapi
 
 sapi = 0
 
@@ -67,21 +67,10 @@ class Login(flask.views.MethodView):
 
         if validuser:
             print('login successful')
-            flask.session['username'] = username
-            uid = uuid.uuid4()
-            flask.session['uid'] = uid.urn[9:]
-            ## create API Object using Twitter access keys
-            ##one time
-            consumer_key = "mpIuWJYkQKUvaiS4FPwQpGVr8"
-            consumer_secret = "EWOz9A9om3tf85XsF89KbIVC5LUkHEZNhdy2PcHTfOr9tP4jjE"
-            access_token = "3080403725-gleW4H38K4tJ69vtUFJDZgBCr2VtqFb3D06Xk7y"
-            access_token_secret = "zWxk43qe3c8QlP6Pua2A81UvDTlpe90lqUVC5PxZEzcqg"
-            
-            auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
-            auth.set_access_token(access_token, access_token_secret)
-            
+           
             global sapi
-            sapi = tweepy.API(auth)
+            sapi = settwitterapi(username)
+            #sapi = tweepy.API(auth)
             
             return flask.redirect(flask.url_for('search'))
         else:

@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 
+
+
 {% block body %}
-
-
+{% if 'query' in session %}
 <!-- Icon Panels - START -->
 <div class="container" style="margin-top:40px;">
     <div class="row">
@@ -190,8 +191,10 @@
 		drawsnagraph();
 	};
 </script>
-	
+
+{% endif %}	
 {% endblock %}
+
 
 {% block nav %}
 	{% include 'navigation.html' %}

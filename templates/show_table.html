@@ -181,13 +181,15 @@
 	
 	function showtweettable(){
 		d3.select("#snagraph").remove();
-		d3.select("#splot").remove();
+		d3.select("#splot1").remove();
+		d3.select("#splot2").remove();
 		$('#tweetstable').show();
 	};
 	
 	function showsnagraph(){
 		$('#tweetstable').hide();
-		d3.select("#splot").remove();
+		d3.select("#splot1").remove();
+		d3.select("#splot2").remove();
 		drawsnagraph();
 	};
 </script>

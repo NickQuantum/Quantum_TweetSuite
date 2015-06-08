@@ -110,7 +110,9 @@ def getFeatureVector(tweet):
     return featureVector
 #end
     
-stopWords = getStopWordList('C://Users//u23139//QuantumTweetSuite//static//sentiment//stopwords.txt')
+##stopWords = getStopWordList('C://Users//u23139//QuantumTweetSuite//static//sentiment//stopwords.txt')
+stopWords = getStopWordList('static//sentiment//stopwords.txt')
+
 
 # process sentiment
 def process_sentiment():
@@ -215,7 +217,9 @@ def process_sentiment():
     
     if _platform == "linux" or _platform == "linux2":
                 # linux
-                filepathjson = 'static/tweets/'+flask.session['uid']+'splot.json' 
+                filepathjson1 = 'static/tweets/'+flask.session['uid']+'splot1.json' 
+                filepathjson2 = 'static/tweets/'+flask.session['uid']+'splot2.json' 
+
     elif _platform == "win32":
                 # Windows...
                 filepathjson1 = 'static//tweets//'+flask.session['uid']+'splot1.json' 

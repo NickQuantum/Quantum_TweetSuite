@@ -27,6 +27,17 @@
 			.linkDistance(function(d) { return 10*d.weight + 50; })
 			.size([width, height]);
 
+			
+	
+		
+		var link, node;	
+		
+		d3.json("{{url_for('static', filename='tweets/%s.json' % filename) }}", function(error, graph) {
+		  force
+			  .nodes(graph.nodes)
+			  .links(graph.links)
+			  .start();
+
 		var svg = d3.select("body").append("svg")
 		.attr("id","snagraph")
 		.attr("width", width + margin.left + margin.right)
@@ -44,21 +55,17 @@
                             .attr("height", 700)
 							.attr("fill", "white")
 							.style("stroke-width",1)
-							.style("stroke", "black");	
-			
-		d3.json("{{url_for('static', filename='tweets/%s.json' % filename) }}", function(error, graph) {
-		  force
-			  .nodes(graph.nodes)
-			  .links(graph.links)
-			  .start();
-			  
-		  var link = svg.selectAll(".link")
+							.style("stroke", "black");
+
+		   link = svg.selectAll(".link")
 			  .data(graph.links)
 			.enter().append("line")
 			  .attr("class", "link")
 			  .style("stroke-width", function(d) { return Math.sqrt(d.weight); });
 
-		  var node = svg.selectAll(".node")
+			//link.exit().remove();
+			  
+		  node = svg.selectAll(".node")
 				.data(graph.nodes)
 				.enter().append("circle")
 				.attr("class", "node")
@@ -94,6 +101,7 @@
 		  });
 
 		});
+
 		};
 		
 		//drawsnagraph();

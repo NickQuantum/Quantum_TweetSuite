@@ -15,7 +15,7 @@ class Result(flask.views.MethodView):
     @login_required
     def get(self):
         
-        print('Search POST called')
+        print('Result GET is called')
         sessionid = flask.session['uid']
         try:
             query = flask.session['query']
@@ -56,6 +56,8 @@ class Result(flask.views.MethodView):
             
             return flask.render_template('show_table.html', tweets=tweets, filename=filename)
         else:
-            tweets = ''
-            filename = ''
-            return flask.render_template('show_table.html') #,tweets,filename)
+            #tweets = ''
+            #filename = ''
+            #return flask.render_template('show_table.html') #,tweets,filename)
+            flask.session.pop('query', None)
+            return flask.render_template('index.html')

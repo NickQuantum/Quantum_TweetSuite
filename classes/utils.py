@@ -9,6 +9,8 @@ import functools
 import tweepy
 import uuid
 
+sapi = 0
+
 
 def login_required(method):
     @functools.wraps(method)
@@ -35,6 +37,9 @@ def settwitterapi(username):
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
     auth.set_access_token(access_token, access_token_secret)
     
+    global sapi
     sapi = tweepy.API(auth)
     
-    return sapi
+    print 'twitter account authenticated. stored in variable'
+    
+    return #sapi

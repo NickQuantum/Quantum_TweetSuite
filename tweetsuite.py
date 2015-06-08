@@ -5,7 +5,6 @@
 """
 
 import flask, flask.views
-#import os
 
 
 #views
@@ -13,6 +12,7 @@ from classes.login import Login
 from classes.search import Search
 from classes.register import Register
 from classes.result import Result
+from classes.utils import settwitterapi
 from sys import platform as _platform
 
 
@@ -21,14 +21,16 @@ tweetsuite = application = flask.Flask(__name__)
 tweetsuite.secret_key = "bacon"
 
 
-
-
-
+ 
 class Logout(flask.views.MethodView):
     def get(self):
         flask.session.pop('username', None)
         flask.session.pop('uid',None)
         flask.session.pop('query', None)
+        
+        # set dummy user - "demo"
+        username = "demo"
+        settwitterapi(username)
         return flask.render_template('index.html')
 
 class MainLine(flask.views.MethodView):

@@ -8,9 +8,9 @@ import flask, flask.views
 import tweepy
 import json
 import os
+import utils
 
-
-import login
+#import login
 from utils import login_required
 from findsentiment import process_sentiment
 from sys import platform as _platform
@@ -21,7 +21,8 @@ class Search(flask.views.MethodView):
     @login_required
     def get(self):
         flask.session.pop('query', None)
-        return flask.redirect(flask.url_for('result'))
+        #return flask.redirect(flask.url_for('result'))
+        return flask.render_template('index.html')
         #return flask.render_template('search.html')
     
     @login_required    
@@ -33,7 +34,12 @@ class Search(flask.views.MethodView):
         flask.session['query'] = query
         max_tweets = 200
 
-        api = login.sapi
+        print 'query --> ' + flask.session['query']
+        #api = login.sapi
+        api = utils.sapi
+
+        print 'retreved api authentication successful'
+
         searched_tweets = [status for status in tweepy.Cursor(api.search, q=query).items(max_tweets)]
         if _platform == "linux" or _platform == "linux2":
             # linux

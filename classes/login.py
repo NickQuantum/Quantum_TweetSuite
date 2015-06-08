@@ -9,9 +9,9 @@ import flask, flask.views
 
 from boto.dynamodb2.table import Table
 from sys import platform as _platform
-from utils import settwitterapi
+import utils
 
-sapi = 0
+#sapi = 0
 
 class Login(flask.views.MethodView):
     def get(self):
@@ -68,9 +68,7 @@ class Login(flask.views.MethodView):
         if validuser:
             print('login successful')
            
-            global sapi
-            sapi = settwitterapi(username)
-            #sapi = tweepy.API(auth)
+            utils.settwitterapi(username)
             
             return flask.redirect(flask.url_for('search'))
         else:

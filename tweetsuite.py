@@ -43,6 +43,11 @@ class MainLine(flask.views.MethodView):
         return flask.redirect(flask.url_for('login'))
 
 
+class Demo(flask.views.MethodView):
+    def get(self):
+        print('Demo Page Invoked!!')
+        return flask.render_template('demo_sna_graph.html')
+
 #routes
 tweetsuite.add_url_rule('/',
                  view_func=MainLine.as_view('index'),
@@ -62,7 +67,9 @@ tweetsuite.add_url_rule('/result/',
 tweetsuite.add_url_rule('/logout',
                  view_func=Logout.as_view('logout'),
                  methods=['GET'])
-
+tweetsuite.add_url_rule('/demo',
+                 view_func=Demo.as_view('demo'),
+                 methods=['GET'])
 
 #handler to page not found - or incorrect URL
 @tweetsuite.errorhandler(404)

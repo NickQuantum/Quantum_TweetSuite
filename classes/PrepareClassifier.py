@@ -168,7 +168,7 @@ stopWords = []
 
 if _platform == "linux" or _platform == "linux2":
     # linux
-    st = open('static/sentiment/stopwords.txt', 'r')
+    #st = open('static/sentiment/stopwords.txt', 'r')
     stopWords = getStopWordList('static/sentiment/stopwords.txt')
     final_list = getTrainingTweets("static/sentiment/sentiment1.csv")
     validation_list = getTrainingTweets("static/sentiment/sentiment2.csv")
@@ -176,9 +176,9 @@ if _platform == "linux" or _platform == "linux2":
 elif _platform == "win32":
     # Windows...
     #st = open('static//sentiment//stopwords.txt', 'r')
-    stopWords = getStopWordList('C://Users//u23139//QuantumTweetSuite//static//sentiment//stopwords.txt')
-    final_list = getTrainingTweets("C://Users//u23139//QuantumTweetSuite//static//sentiment//sentiment1.csv")
-    validation_list = getTrainingTweets("C://Users//u23139//QuantumTweetSuite//static//sentiment//sentiment2.csv")
+    stopWords = getStopWordList('static//sentiment//stopwords.txt')
+    final_list = getTrainingTweets("static//sentiment//sentiment1.csv")
+    validation_list = getTrainingTweets("static//sentiment//sentiment2.csv")
 
 #Read the training data tweets one by one and process it
 #final_list = getTrainingTweets("static//sentiment//sentiment1.csv")

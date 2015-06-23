@@ -14,6 +14,7 @@ from sys import platform as _platform
 
 #Call tweet_processor
 def getTestDF():
+    print('INSIDE getTestDF method in findsentiment.py')
     if _platform == "linux" or _platform == "linux2":
         # linux
         tweets_data_path = 'static/tweets/'+flask.session['uid']+'.txt' 
@@ -111,28 +112,43 @@ def getFeatureVector(tweet):
 #end
     
 ##stopWords = getStopWordList('C://Users//u23139//QuantumTweetSuite//static//sentiment//stopwords.txt')
-stopWords = getStopWordList('static//sentiment//stopwords.txt')
+
+
+if _platform == "linux" or _platform == "linux2":
+    # linux
+    stopWords = getStopWordList('static/sentiment/stopwords.txt')    
+elif _platform == "win32":
+    # Windows...
+    stopWords = getStopWordList('static//sentiment//stopwords.txt')
 
 
 # process sentiment
 def process_sentiment():
+    print('INSIDE Process_Sentiment definition')
     fromtweepyDF = getTestDF()
-    
+    print('AFTER getTESTDF call; before opening classifier and bag of words')
     ## Load the classifier
     # we open the file for reading
-    fileObject = open("static//sentiment//classifier",'r')  
+    if _platform == "linux" or _platform == "linux2":
+        # linux
+        fileObjectclassfier = open("static/sentiment/classifier",'r') 
+        fileObjectbow = open("static/sentiment/bagofwords",'r')
+    elif _platform == "win32":
+        # Windows...
+        fileObjectclassfier = open("static//sentiment//classifier",'r') 
+        ## Load the bag of words
+        # we open the file for reading
+        fileObjectbow = open("static//sentiment//bagofwords",'r')
+
     # load the object from the file into var b
-    classifier = pickle.load(fileObject)
-    fileObject.close()
-    
-    ## Load the bag of words
-    # we open the file for reading
-    fileObject = open("static//sentiment//bagofwords",'r')  
+    classifier = pickle.load(fileObjectclassfier)
+    fileObjectclassfier.close()
+  
     # load the object from the file into var b
-    word_features = pickle.load(fileObject)
-    fileObject.close()
+    word_features = pickle.load(fileObjectbow)
+    fileObjectbow.close()
     
-    
+    print ('FINISHED reading pickle')
     
     
     hashtagDF2 =[]

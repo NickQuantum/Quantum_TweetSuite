@@ -7,7 +7,6 @@ Created on Thu Apr 16 00:58:09 2015
 import flask, flask.views
 import tweepy
 import json
-import os
 import utils
 
 #import login

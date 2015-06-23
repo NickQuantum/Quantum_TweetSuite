@@ -14,6 +14,7 @@ from sys import platform as _platform
 
 #Call tweet_processor
 def getTestDF():
+    print('INSIDE getTestDF method in findsentiment.py')
     if _platform == "linux" or _platform == "linux2":
         # linux
         tweets_data_path = 'static/tweets/'+flask.session['uid']+'.txt' 
@@ -123,30 +124,31 @@ elif _platform == "win32":
 
 # process sentiment
 def process_sentiment():
+    print('INSIDE Process_Sentiment definition')
     fromtweepyDF = getTestDF()
-    
+    print('AFTER getTESTDF call; before opening classifier and bag of words')
     ## Load the classifier
     # we open the file for reading
     if _platform == "linux" or _platform == "linux2":
         # linux
-        fileObject = open("static/sentiment/classifier",'r') 
-        fileObject = open("static/sentiment/bagofwords",'r')
+        fileObjectclassfier = open("static/sentiment/classifier",'r') 
+        fileObjectbow = open("static/sentiment/bagofwords",'r')
     elif _platform == "win32":
         # Windows...
-        fileObject = open("static//sentiment//classifier",'r') 
+        fileObjectclassfier = open("static//sentiment//classifier",'r') 
         ## Load the bag of words
         # we open the file for reading
-        fileObject = open("static//sentiment//bagofwords",'r')
+        fileObjectbow = open("static//sentiment//bagofwords",'r')
 
     # load the object from the file into var b
-    classifier = pickle.load(fileObject)
-    fileObject.close()
+    classifier = pickle.load(fileObjectclassfier)
+    fileObjectclassfier.close()
   
     # load the object from the file into var b
-    word_features = pickle.load(fileObject)
-    fileObject.close()
+    word_features = pickle.load(fileObjectbow)
+    fileObjectbow.close()
     
-    
+    print ('FINISHED reading pickle')
     
     
     hashtagDF2 =[]

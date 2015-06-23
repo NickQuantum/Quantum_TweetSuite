@@ -32,7 +32,7 @@ class Search(flask.views.MethodView):
         print('Search POST called')
         query = flask.request.form['Query']
         flask.session['query'] = query
-        max_tweets = 200
+        max_tweets = 300
 
         print 'query --> ' + flask.session['query']
         #api = login.sapi

@@ -172,11 +172,14 @@
     </div>	<!-- end container -->
 
 <script>
+var filename="emptyfilename";
+var sfilename="emptyfilename";
 	
 	function showsentimentgraph(){
 		$('#tweetstable').hide();
 		d3.select("#snagraph").remove();
-		drawsplot();
+		sfilename="{{url_for('static', filename='tweets/%s' % filename) }}";
+		drawsplot(sfilename);
 	}
 	
 	function showtweettable(){
@@ -190,7 +193,8 @@
 		$('#tweetstable').hide();
 		d3.select("#splot1").remove();
 		d3.select("#splot2").remove();
-		drawsnagraph();
+		filename = "{{url_for('static', filename='tweets/%s.json' % filename) }}";
+		drawsnagraph(filename);
 	};
 </script>
 

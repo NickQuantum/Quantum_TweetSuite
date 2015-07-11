@@ -1,6 +1,6 @@
 branch-defaults:
   master:
-    environment: tweetsuite-dev
+    environment: null
 global:
   application_name: tweetsuite
   default_ec2_keyname: ts_keypair

@@ -1,4 +1,6 @@
 branch-defaults:
+  aws-branch:
+    environment: tweetsuite-dev
   master:
     environment: tweetsuite
 global:

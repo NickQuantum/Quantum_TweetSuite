@@ -25,6 +25,12 @@
 			  .links(graph.links)
 			  .start();
 
+		
+		var div = d3.select("body")
+			.append("div")	//declare the tooltip div
+			.attr("class", "tooltip")	//apply the 'tooltip' class
+			.style("opacity", 0);
+		
 		var svg = d3.select("body").append("svg")
 		.attr("id","snagraph")
 		.attr("width", width + margin.left + margin.right)
@@ -51,6 +57,9 @@
 			  .style("stroke-width", function(d) { return Math.sqrt(d.weight); });
 
 			//link.exit().remove();
+		
+			// Define the line
+		//var	tip = if (d.tweet != null) return d.tweet; else return d.screen_name;;
 			  
 		  node = svg.selectAll(".node")
 				.data(graph.nodes)
@@ -58,7 +67,27 @@
 				.attr("class", "node")
 				.attr("r", function(d) { if ((d.weight > 0) && (d.weight <= 20)) return d.weight*2 + 5 ; else if (d.weight > 20) return 60;  else return 0; })
 				.style("fill", function(d) { return color(d.weight); })
-				.call(force.drag);
+				.call(force.drag)
+				.on("mousedown", function(d){
+					div.transition()
+						.duration(500)
+						.style("opacity", 0);
+					div.transition()
+						.duration(200)
+						.style("opacity", .9);
+					if (d.tweet != null) 
+						{ var tip=d.tweet; var tiplen="125px"; var tipwidth="150px";} 
+					else  
+						{tip=d.screen_name; tiplen="30px"; tipwidth=d.screen_name.length+75+"px";}
+					div.html(
+						'<a href="#">' +
+						'</a><u>' + d.screen_name +
+						'</u><br/><br/><p>' + tip +'</p>')
+						.style("height", tiplen)
+						.style("width", tipwidth)
+						.style("left", (d3.event.pageX) + "px")
+						.style("top", (d3.event.pageY - 25) + "px");
+				});
 
 		  node.append("title")
 			  .text(function(d) { if (d.tweet != null) return d.tweet; else return d.screen_name; });

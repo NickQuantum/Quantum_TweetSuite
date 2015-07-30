@@ -10,6 +10,10 @@ import math
 from nltk.probability import FreqDist, DictionaryProbDist, ELEProbDist, sum_logs
 from sys import platform as _platform
 
+from datetime import datetime
+from threading import Thread
+from flask import render_template, copy_current_request_context, current_app
+
 
 
 #Call tweet_processor
@@ -121,11 +125,111 @@ elif _platform == "win32":
     # Windows...
     stopWords = getStopWordList('static//sentiment//stopwords.txt')
 
+# process tweet sentiment thread
+###@copy_current_request_context
+def process_sentiment_thread(classifier, word_features, fromtweepyDF, sessionuid):
+    
+    thashtagDF2 =[]
+    txycoordinates = []
+    tsentimentlist = []
+    tpositive_tweet_word_dict = {}
+    tnegative_tweet_word_dict = {}
+    tnum_positive_tweets = 0
+    tnum_negative_tweets = 0
+   
+    print('Inside Tweet sentiment THREAD' + str(datetime.now()))
+
+    
+    ## added to here
+    for index,row in fromtweepyDF.iterrows():
+        tweet =row['text']
+        ## get hashtags
+        hashtags = ''
+        hashtags = re.findall(r"#(\w+)", tweet)
+        for item in hashtags:
+               if item <> '' :
+                    thashtagDF2.append( item)
+        ## username
+        ##user = re.findall('@[^\s]+',tweet)
+        txycoordinates= classifier.prob_classify(extract_features(tweet.split(),word_features))
+        
+        #print (txycoordinates._prob_dict)
+        
+        retweeted_count = row['retweet_count']
+        result= classifier.classify(extract_features(tweet.split(),word_features))
+        tsentimentlist.append([math.exp(txycoordinates._prob_dict.items()[0][1])*200,
+                              math.exp(txycoordinates._prob_dict.items()[1][1])*200, 
+                              tweet,result, retweeted_count])
+        if result == 'positive':
+            tnum_positive_tweets += 1
+            for word in getFeatureVector(processTweet(tweet)):
+                if not word in tpositive_tweet_word_dict:
+                    tpositive_tweet_word_dict[word] = 1
+                else:
+                    tpositive_tweet_word_dict[word] += 1
+            
+        else:
+            tnum_negative_tweets += 1
+            for word in getFeatureVector(processTweet(tweet)):
+                if not word in tnegative_tweet_word_dict:
+                    tnegative_tweet_word_dict[word] = 1
+                else:
+                    tnegative_tweet_word_dict[word] += 1
+
+    print('Completed Tweet sentiment THREAD' + str(datetime.now()))
+    ## Part 2
+
+    print('After tweet classification THREAD' + str(datetime.now()))
+
+    positive_tweet_word_list = []
+    negative_tweet_word_list = []
+    num_positive_tweets = 0
+    num_negative_tweets = 0 
+    
+    for key,value in tpositive_tweet_word_dict.iteritems():
+            word_dict = {
+                "word": key,
+                "weight": value
+            }
+            positive_tweet_word_list.append(word_dict)
+    
+    
+    for key,value in tnegative_tweet_word_dict.iteritems():
+            word_dict = {
+                "word": key,
+                "weight": value
+            }
+            negative_tweet_word_list.append(word_dict)
+            
+    print ("Number of Positive tweets = ", num_positive_tweets )
+    print ("Number of Negative tweets = ", num_negative_tweets )
+    #print ("Positive Tweet Word Dict =", positive_tweet_word_dict)
+    #print ("Negative Tweet Word Dict =", negative_tweet_word_dict) 
+    
+    #print ("Positive Tweet Word List =", positive_tweet_word_list)
+    
+    ##sentimentlist.extend(result) 
+    #print sentimentlist
+    print('BEFORE writing to JSON Tweet sentiment THREAD' + str(datetime.now()))    
+    print('uid --->' + sessionuid)
+
+    write_sentiment_2json(positive_tweet_word_list, negative_tweet_word_list, sessionuid)
+    
+    columns2 = ['hashtags']
+    hashtagDF = pandas.DataFrame(data = hashtagDF2,columns =columns2)
+
+    ## added to here
+    
+    #return thashtagDF2, txycoordinates, tsentimentlist, tpositive_tweet_word_dict, tnegative_tweet_word_dict
+    print('THREAD COMPLETED' + str(datetime.now()))
+
 
 # process sentiment
 def process_sentiment():
     print('INSIDE Process_Sentiment definition')
+    print('before getTestDF() {} ' + format(str(datetime.now())))
     fromtweepyDF = getTestDF()
+    print('After getTestDF()' + str(datetime.now()))
     print('AFTER getTESTDF call; before opening classifier and bag of words')
     ## Load the classifier
     # we open the file for reading
@@ -148,101 +252,63 @@ def process_sentiment():
     word_features = pickle.load(fileObjectbow)
     fileObjectbow.close()
     
-    print ('FINISHED reading pickle')
-    
-    
-    hashtagDF2 =[]
-    xycoordinates = []
-    sentimentlist = []
-    positive_tweet_word_dict = {}
-    negative_tweet_word_dict = {}
-    positive_tweet_word_list = []
-    negative_tweet_word_list = []
-    columns=['id','user','date','tweet','mentions received','hashtag','sentiment','numberof followers','friends count','retweeted count']
-    testtweetDF = pandas.DataFrame(data=np.zeros((0,len(columns))),  columns = columns)
-    num_positive_tweets = 0
-    num_negative_tweets = 0
-    for index,row in fromtweepyDF.iterrows():
-        tweet =row['text']
-        ## get hashtags
-        hashtags = ''
-        hashtags = re.findall(r"#(\w+)", tweet)
-        for item in hashtags:
-               if item <> '' :
-                    hashtagDF2.append( item)
-        ## username
-        user = re.findall('@[^\s]+',tweet)
-        xycoordinates= classifier.prob_classify(extract_features(tweet.split(),word_features))
+    print ('FINISHED reading pickle' + str(datetime.now()))
+
+    # variable declaration
         
-        #print (xycoordinates._prob_dict)
-        
-        retweeted_count = row['retweet_count']
-        result= classifier.classify(extract_features(tweet.split(),word_features))
-        sentimentlist.append([math.exp(xycoordinates._prob_dict.items()[0][1])*200,
-                              math.exp(xycoordinates._prob_dict.items()[1][1])*200, 
-                              tweet,result, retweeted_count])
-        if result == 'positive':
-            num_positive_tweets += 1
-            for word in getFeatureVector(processTweet(tweet)):
-                if not word in positive_tweet_word_dict:
-                    positive_tweet_word_dict[word] = 1
-                else:
-                    positive_tweet_word_dict[word] += 1
-            
-        else:
-            num_negative_tweets += 1
-            for word in getFeatureVector(processTweet(tweet)):
-                if not word in negative_tweet_word_dict:
-                    negative_tweet_word_dict[word] = 1
-                else:
-                    negative_tweet_word_dict[word] += 1
-        
-        
-       
-        
-            
-        data = [row['id'], user,row['created_at'],tweet,index,hashtags,result,index,index,row['retweet_count']]
-        testtweetDF = testtweetDF.T
-        testtweetDF[index] = data
-        testtweetDF = testtweetDF.T
+    #hashtagDF2 =[]
+    #xycoordinates = []
+    #sentimentlist = []
+    #positive_tweet_word_dict = {}
+    #negative_tweet_word_dict = {}
+    ##columns=['id','user','date','tweet','mentions received','hashtag','sentiment','numberof followers','friends count','retweeted count']
+    ##testtweetDF = pandas.DataFrame(data=np.zeros((0,len(columns))),  columns = columns)
+   
+
+    print('Before tweet classification' + str(datetime.now()))
+
+    #moved from here
+
+    #moved till here
+
+        ##data = [row['id'], user,row['created_at'],tweet,index,hashtags,result,index,index,row['retweet_count']]
+        ##testtweetDF = testtweetDF.T
+        ##testtweetDF[index] = data
+        ##testtweetDF = testtweetDF.T
+
+    sessionuid = flask.session['uid']
+    print('Child thread being submitted' + str(datetime.now()) + sessionuid)
     
-    for key,value in positive_tweet_word_dict.iteritems():
-            word_dict = {
-                "word": key,
-                "weight": value
-            }
-            positive_tweet_word_list.append(word_dict)
+    #hashtagDF2, xycoordinates, sentimentlist, positive_tweet_word_dict, negative_tweet_word_dict = process_sentiment_thread(classifier, word_features, fromtweepyDF)
+    t1 = Thread(target=process_sentiment_thread, args=(classifier, word_features, fromtweepyDF,sessionuid))
+    t1.start()
     
-    
-    for key,value in negative_tweet_word_dict.iteritems():
-            word_dict = {
-                "word": key,
-                "weight": value
-            }
-            negative_tweet_word_list.append(word_dict)
-            
-    print ("Number of Positive tweets = ", num_positive_tweets )
-    print ("Number of Negative tweets = ", num_negative_tweets )
-    #print ("Positive Tweet Word Dict =", positive_tweet_word_dict)
-    #print ("Negative Tweet Word Dict =", negative_tweet_word_dict) 
-    
-    #print ("Positive Tweet Word List =", positive_tweet_word_list)
-    
-    ##sentimentlist.extend(result) 
-    #print sentimentlist
-    
+    print('Child submitted and process sentiment ends' + str(datetime.now()))
+ 
+
+
+    #print (testtweetDF)
+    ##print ( xycoordinates._prob_dict)
+    ##print (xycoordinates.max())
+    ##print (xycoordinates._prob_dict.items()[1][1])
+    ###classifier.show_most_informative_features()
+
+
+def write_sentiment_2json(data1, data2, sessionuid):
+    print('THREAD WRITE SENTIMENT ' + sessionuid +' JSON')
+    print('before declaring json file')
     if _platform == "linux" or _platform == "linux2":
                 # linux
-                filepathjson1 = 'static/tweets/'+flask.session['uid']+'splot1.json' 
-                filepathjson2 = 'static/tweets/'+flask.session['uid']+'splot2.json' 
+                filepathjson1 = 'static/tweets/'+sessionuid+'splot1.json' 
+                filepathjson2 = 'static/tweets/'+sessionuid+'splot2.json' 
 
     elif _platform == "win32":
                 # Windows...
-                filepathjson1 = 'static//tweets//'+flask.session['uid']+'splot1.json' 
-                filepathjson2 = 'static//tweets//'+flask.session['uid']+'splot2.json' 
+                filepathjson1 = 'static//tweets//'+sessionuid+'splot1.json' 
+                filepathjson2 = 'static//tweets//'+sessionuid+'splot2.json' 
     try:
         print('before readwrite')
-        data1 = positive_tweet_word_list
+        #data1 = positive_tweet_word_list
      
         print('readwrite successful')
         ##pprint.pprint(data) 
@@ -255,7 +321,7 @@ def process_sentiment():
     try:
         print('before readwrite')
      
-        data2 = negative_tweet_word_list
+        #data2 = negative_tweet_word_list
         print('readwrite successful')
         ##pprint.pprint(data) 
         with open(filepathjson2, 'w') as outfile:
@@ -264,12 +330,3 @@ def process_sentiment():
             print('JSON file Created!')
     except:
         print('JSON FILE Creation FAILED')
-       
-        
-    columns2 = ['hashtags']
-    hashtagDF = pandas.DataFrame(data = hashtagDF2,columns =columns2)
-    #print (testtweetDF)
-    ##print ( xycoordinates._prob_dict)
-    ##print (xycoordinates.max())
-    ##print (xycoordinates._prob_dict.items()[1][1])
-    classifier.show_most_informative_features()

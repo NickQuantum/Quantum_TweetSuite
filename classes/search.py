@@ -135,7 +135,7 @@ class Search(flask.views.MethodView):
         for i in range(len(chunks)):
             username_dict = get_user_info(chunks[i])
             
-        print mention_user_list
+        ##print mention_user_list
                 
         #print username_dict
                 
@@ -193,7 +193,7 @@ class Search(flask.views.MethodView):
             ##pprint.pprint(data) 
             with open(filepathjson, 'w') as outfile:
                 json.dump(data, outfile)
-                print json.dumps(data)       
+                ##print json.dumps(data)       
                 print('JSON file Created!')
         except:
             print('JSON FILE Creation FAILED')

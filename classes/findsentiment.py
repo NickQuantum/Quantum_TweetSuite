@@ -187,10 +187,11 @@ def process_sentiment_thread(classifier, word_features, fromtweepyDF, sessionuid
     num_negative_tweets = 0 
     
     for key,value in tpositive_tweet_word_dict.iteritems():
-            word_dict = {
-                "word": key,
-                "weight": value
-            }
+           # word_dict = {
+           #     "word": key,
+           #     "weight": value
+           # }
+            word_dict = key, value
             positive_tweet_word_list.append(word_dict)
     
     
@@ -206,7 +207,7 @@ def process_sentiment_thread(classifier, word_features, fromtweepyDF, sessionuid
     #print ("Positive Tweet Word Dict =", positive_tweet_word_dict)
     #print ("Negative Tweet Word Dict =", negative_tweet_word_dict) 
     
-    #print ("Positive Tweet Word List =", positive_tweet_word_list)
+    print ("Positive Tweet Word List =", positive_tweet_word_list)
     
     ##sentimentlist.extend(result) 
     #print sentimentlist
@@ -216,7 +217,7 @@ def process_sentiment_thread(classifier, word_features, fromtweepyDF, sessionuid
     write_sentiment_2json(positive_tweet_word_list, negative_tweet_word_list, sessionuid)
     
     columns2 = ['hashtags']
-    hashtagDF = pandas.DataFrame(data = hashtagDF2,columns =columns2)
+    hashtagDF = pandas.DataFrame(data = thashtagDF2,columns =columns2)
 
     ## added to here
     

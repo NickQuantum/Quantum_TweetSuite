@@ -17,15 +17,44 @@
 }
 
 
+body {
+margin-top: 40px;
+}
+#cloud { border-radius:3px;border:1px solid #d0d0d0; }
+#cloud span { cursor: pointer; }
+
 
 </style>
 
 	<body>
-
+    <div class="container theme-showcase" role="main">
+      
+      <div id="loading"></div>
+      <div class="canvas">
+      
+    
+  <div class="chartContainer" id="wordCloud" >    
+    <div class="page-header">
+      <h1>Positive Sentiment</h1>
+	  <span id="positiveTweetCount"></span>
+    </div>
+    <div id="cloudp" style="width:100%;height:600px;position:relative;"></div>
+    <strong><div id="detailsp" style="width:100%;text-align:center;line-height:2em;margin-top:0.5em"></div></strong>
+	<div class="page-header">
+      <h1>Negative Sentiment</h1>
+	  <span id="negativeTweetCount"></span>
+    </div>
+    <div id="cloudn" style="width:100%;height:600px;position:relative;"></div>
+    <strong><div id="detailsn" style="width:100%;text-align:center;line-height:2em;margin-top:0.5em"></div></strong>
+  </div>
+  <br/>
+  <br/>
+  </div>  <!-- /canvas -->
+    </div> <!-- /container -->
 	
 	<script src="http://d3js.org/d3.v3.min.js"></script>
 	<script type="text/javascript" src="{{ url_for('static', filename='d3.layout.cloud.js') }}"></script>
-	<script type="text/javascript" src="{{ url_for('static', filename='drawsplot.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='drawsplot.js') }}"></script>
 
 </body>   
     

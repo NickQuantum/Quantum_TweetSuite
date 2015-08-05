@@ -196,10 +196,11 @@ def process_sentiment_thread(classifier, word_features, fromtweepyDF, sessionuid
     
     
     for key,value in tnegative_tweet_word_dict.iteritems():
-            word_dict = {
-                "word": key,
-                "weight": value
-            }
+           #  word_dict = {
+           #     "word": key,
+           #     "weight": value
+           # }
+            word_dict = key, value
             negative_tweet_word_list.append(word_dict)
             
     print ("Number of Positive tweets = ", num_positive_tweets )

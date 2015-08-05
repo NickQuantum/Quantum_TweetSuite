@@ -14,9 +14,6 @@
 			.linkDistance(function(d) { return 10*d.weight + 50; })
 			.size([width, height]);
 
-			
-	
-		
 		var link, node;	
 		
 		d3.json(filename, function(error, graph) {
@@ -24,12 +21,13 @@
 			  .nodes(graph.nodes)
 			  .links(graph.links)
 			  .start();
-
 		
 		var div = d3.select("body")
 			.append("div")	//declare the tooltip div
 			.attr("class", "tooltip")	//apply the 'tooltip' class
-			.style("opacity", 0);
+			.attr("id", "idtooltip")
+			.style("opacity", 0)
+			.attr("onclick","$(this).fadeTo('fast',0.1);");
 		
 		var svg = d3.select("body").append("svg")
 		.attr("id","snagraph")
@@ -69,20 +67,21 @@
 				.style("fill", function(d) { return color(d.weight); })
 				.call(force.drag)
 				.on("mousedown", function(d){
-					div.transition()
-						.duration(500)
-						.style("opacity", 0);
+					//div.transition()
+					//	.duration(500)
+					//	.style("opacity", 0);
 					div.transition()
 						.duration(200)
-						.style("opacity", .9);
+						.style("opacity", .9)
+						.style("display","block");
 					if (d.tweet != null) 
 						{ var tip=d.tweet; var tiplen="125px"; var tipwidth="150px";} 
 					else  
 						{tip=d.screen_name; tiplen="30px"; tipwidth=d.screen_name.length+75+"px";}
 					div.html(
-						'<a href="#">' +
-						'</a><u>' + d.screen_name +
-						'</u><br/><br/><p>' + tip +'</p>')
+						'<a href="https://twitter.com/' + d.screen_name+'" target="_blank">' +
+						'<u>' + d.screen_name +
+						'</u></a><br/><br/><p>' + tip +'</p>')
 						.style("height", tiplen)
 						.style("width", tipwidth)
 						.style("left", (d3.event.pageX) + "px")

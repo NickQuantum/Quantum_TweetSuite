@@ -174,24 +174,31 @@
 <script>
 var filename="emptyfilename";
 var sfilename="emptyfilename";
+
+$('#wordCloud').hide();
 	
 	function showsentimentgraph(){
 		$('#tweetstable').hide();
 		d3.select("#snagraph").remove();
+		d3.select("#idtooltip").remove();
 		sfilename="{{url_for('static', filename='tweets/%s' % filename) }}";
+		$('#wordCloud').show();
 		drawsplot(sfilename);
 	}
 	
 	function showtweettable(){
 		d3.select("#snagraph").remove();
-		d3.select("#splot1").remove();
+		d3.select("#idtooltip").remove();
+		$('#wordCloud').hide();
+		//d3.select("#splot1").remove();
 		d3.select("#splot2").remove();
 		$('#tweetstable').show();
 	};
 	
 	function showsnagraph(){
 		$('#tweetstable').hide();
-		d3.select("#splot1").remove();
+		$('#wordCloud').hide();
+		//d3.select("#splot1").remove();
 		d3.select("#splot2").remove();
 		filename = "{{url_for('static', filename='tweets/%s.json' % filename) }}";
 		drawsnagraph(filename);

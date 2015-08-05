@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>test file for jquery</title>
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+<body>
+ 
+<p>Hello</p>
+<a href="#">Click to hide me too</a>
+<p>Here is another paragraph</p>
+<a href="#" onclick="$(this).hide();">Click to hide me too</a>
+
+<script>
+$( "p" ).hide('slow');
+$( "a" ).click(function( event ) {
+  event.preventDefault();
+  $( this ).hide();
+});
+</script>
+ 
+</body>
+</html>

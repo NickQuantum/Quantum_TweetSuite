@@ -120,6 +120,12 @@ class Search(flask.views.MethodView):
             users = api.lookup_users(user_ids)
             for user in users:
                 username_dict[user.id] = user.screen_name
+                # username_dict[user.id] = user.url
+                # username_dict[user.id] = user.location  #string
+                #                        = user.followers_count   #number
+                #                        = user.description     #description of the user
+                #                        = user.lang      #string for two chars
+                #                        = user.friends_count     #number
             return username_dict            
         
         

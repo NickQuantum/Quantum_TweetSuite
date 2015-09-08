@@ -132,7 +132,6 @@
     height: 30px;
 }
 </style>
-
 <!-- Icon Panels - END -->
 
 <div id='svg' class="col col-lg-12 text-center " style="margin-top:40px;">
@@ -159,18 +158,48 @@
         <th style="font-size:18px;">User</th>
         <th style="font-size:18px;">Text</th>
         <th style="font-size:18px;">Hashtag</th>
+        <th style="font-size:18px;">Date Time</th>
       </tr>
     {% for i in range(tweets|length) %}
       <tr>
         <td> {{i+1}} </td>
-        <td>{{ tweets[i][1] }}</td>
+        <td><a class='iframe' href="https://twitter.com/{{tweets[i][1]}}" >{{ tweets[i][1] }}</a></td>
         <td>{{ tweets[i][0] }}</td>
         <td>{{ "#"+ " #".join(tweets[i][2]) }}</td>
+        <td>{{ tweets[i][3] }}</td>
       </tr>
       {% endfor %}
     </table> 
     </div>	<!-- end container -->
 
+<!-- JavaScript for query.colorbox.js-->
+<script>
+	$(document).ready(function() {
+		//Examples of how to assign the Colorbox event to elements
+		$(".iframe").colorbox({iframe:true, width:"80%", height:"80%"});
+	});
+</script>
+<!-- JavaScript to parse Twitter Date - createdat -->
+<script type="text/JavaScript">
+function TwitterDateConverter(time){
+	var date = new Date(time),
+		diff = (((new Date()).getTime() - date.getTime()) / 1000),
+		day_diff = Math.floor(diff / 86400);
+			
+	if ( isNaN(day_diff) || day_diff < 0 || day_diff >= 31 )
+		return;
+			
+	return day_diff == 0 && (
+			diff < 60 && "just now" ||
+			diff < 120 && "1 minute ago" ||
+			diff < 3600 && Math.floor( diff / 60 ) + " minutes ago" ||
+			diff < 7200 && "1 hour ago" ||
+			diff < 86400 && Math.floor( diff / 3600 ) + " hours ago") ||
+		day_diff == 1 && "Yesterday" ||
+		day_diff < 7 && day_diff + " days ago" ||
+		day_diff < 31 && Math.ceil( day_diff / 7 ) + " weeks ago";
+}
+</script>
 <script>
 var filename="emptyfilename";
 var sfilename="emptyfilename";

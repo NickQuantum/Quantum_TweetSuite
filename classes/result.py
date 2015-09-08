@@ -35,15 +35,17 @@ class Result(flask.views.MethodView):
             print('result json filename in result.py  ' + filename)
             print('finished reading file')
             tweets_data = []
+            createdat = ""
             tweets_file = open(tweets_data_path, "r")
             print('file read')
             for line in tweets_file:
                     try:
                         tweet = json.loads(line)
                         hashtags = [hashtag['text'] for hashtag in tweet['entities']['hashtags']]
+                        createdat = tweet["created_at"][0:tweet["created_at"].find('+')]
                         #print(hashtags)
                         tweets_data.append([tweet["text"],tweet["user"]["screen_name"],
-                                           hashtags])
+                                           hashtags,createdat])
                         #pprint.pprint(tweets_data)
                         
                     except:
@@ -52,7 +54,11 @@ class Result(flask.views.MethodView):
             print('finished reading from file')
             tweets = tweets_data
             print('assigned data to file parameter')
-    
+            try:
+                print(min(tweets_data)[0] + ', max is ' + max(tweets_data)[0])
+                print(min(tweets_data)[1] + ', max is ' + max(tweets_data)[1])
+            except:
+                print('calculation of min / max of created_at failed')
             
             return flask.render_template('show_table.html', tweets=tweets, filename=filename)
         else:

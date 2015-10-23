@@ -26,15 +26,19 @@ class Result(flask.views.MethodView):
         
             if _platform == "linux" or _platform == "linux2":
                 # linux
-                tweets_data_path = 'static/tweets/'+sessionid+'.txt' 
-            elif _platform == "win32":
+                tweets_data_path = 'static/tweets/'+sessionid+'.txt'
+                html_data_path = 'static/tweets/'+sessionid+'1.json'
+            elif _platform == "win32"  or  _platform == "win64":
                 # Windows...
                 tweets_data_path = 'static//tweets//'+sessionid+'.txt' 
+                html_data_path = 'static/tweets/'+sessionid+'1.json'
             
             filename = sessionid
             print('result json filename in result.py  ' + filename)
             print('finished reading file')
             tweets_data = []
+            html_data = []
+         
             tweets_file = open(tweets_data_path, "r")
             print('file read')
             for line in tweets_file:
@@ -52,9 +56,39 @@ class Result(flask.views.MethodView):
             print('finished reading from file')
             tweets = tweets_data
             print('assigned data to file parameter')
-    
             
-            return flask.render_template('show_table.html', tweets=tweets, filename=filename)
+    
+            ## read the html 
+    
+            html_file = open(html_data_path, "r")
+            
+            print('html file read')
+            for line in html_file:
+                try:
+                    data = json.loads(line)
+                   
+                except:
+                    print('error found')
+                    continue        
+                
+                
+            for key,value in data.iteritems():
+               
+               try:
+                   html_data.append([data[key]["html"],data[key]["url"]])
+             
+                #pprint.pprint(tweets_data)
+               except Exception, err:
+                    print Exception, err
+                   
+                
+            ##print html_data
+            print('finished reading from html file')
+            html = html_data
+           
+            print('assigned data to html file parameter')
+         
+            return flask.render_template('show_table.html', tweets=tweets, filename=filename,html=html)
         else:
             #tweets = ''
             #filename = ''

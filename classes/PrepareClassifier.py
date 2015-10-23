@@ -34,7 +34,7 @@ def getTestDF():
     if _platform == "linux" or _platform == "linux2":
         # linux
         tweets_data_path = 'static/tweets/'+flask.session['uid']+'.txt' 
-    elif _platform == "win32":
+    elif _platform == "win32"  or  _platform == "win64":
         # Windows...
         tweets_data_path = 'static//tweets//'+flask.session['uid']+'.txt'  ##'tweepy_text.txt'    #QS changed the file name.     
 
@@ -173,7 +173,7 @@ if _platform == "linux" or _platform == "linux2":
     final_list = getTrainingTweets("static/sentiment/sentiment1.csv")
     validation_list = getTrainingTweets("static/sentiment/sentiment2.csv")
 
-elif _platform == "win32":
+elif _platform == "win32"  or  _platform == "win64":
     # Windows...
     #st = open('static//sentiment//stopwords.txt', 'r')
     stopWords = getStopWordList('static//sentiment//stopwords.txt')

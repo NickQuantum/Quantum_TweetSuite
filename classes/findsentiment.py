@@ -22,7 +22,7 @@ def getTestDF():
     if _platform == "linux" or _platform == "linux2":
         # linux
         tweets_data_path = 'static/tweets/'+flask.session['uid']+'.txt' 
-    elif _platform == "win32":
+    elif _platform == "win32"  or  _platform == "win64":
                 # Windows...
         tweets_data_path = 'static//tweets//'+flask.session['uid']+'.txt'      
     
@@ -239,7 +239,7 @@ def process_sentiment():
         # linux
         fileObjectclassfier = open("static/sentiment/classifier",'r') 
         fileObjectbow = open("static/sentiment/bagofwords",'r')
-    elif _platform == "win32":
+    elif _platform == "win32"  or  _platform == "win64":
         # Windows...
         fileObjectclassfier = open("static//sentiment//classifier",'r') 
         ## Load the bag of words
@@ -304,7 +304,7 @@ def write_sentiment_2json(data1, data2, sessionuid):
                 filepathjson1 = 'static/tweets/'+sessionuid+'splot1.json' 
                 filepathjson2 = 'static/tweets/'+sessionuid+'splot2.json' 
 
-    elif _platform == "win32":
+    elif _platform == "win32"  or  _platform == "win64":
                 # Windows...
                 filepathjson1 = 'static//tweets//'+sessionuid+'splot1.json' 
                 filepathjson2 = 'static//tweets//'+sessionuid+'splot2.json' 

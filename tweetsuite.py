@@ -47,7 +47,7 @@ class Demo(flask.views.MethodView):
     def get(self):
         print('Demo Page Invoked!!')
         return flask.render_template('demo_sna_graph.html')
-
+        
 #routes
 tweetsuite.add_url_rule('/',
                  view_func=MainLine.as_view('index'),
@@ -76,8 +76,8 @@ tweetsuite.add_url_rule('/demo',
 def page_not_found(error):
     return flask.redirect(flask.url_for('login'))
     
-if _platform == "win32":
-    application.debug = True
+
 
 if __name__ == '__main__':
     tweetsuite.run(host='0.0.0.0', port=5000)
+

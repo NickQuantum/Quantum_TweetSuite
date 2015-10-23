@@ -40,7 +40,7 @@ class Login(flask.views.MethodView):
                 pass
         else:
             try:
-                if (username in users and users[username] == passwd and _platform == "win32"):
+                if (username in users and users[username] == passwd and (_platform == "win32"  or  _platform == "win64")):
                     validuser = 'success'
                     print('Windows - authorization successful')
                 else:

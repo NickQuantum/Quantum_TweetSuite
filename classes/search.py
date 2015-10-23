@@ -8,6 +8,10 @@ import flask, flask.views
 import tweepy
 import json
 import utils
+import requests
+from requests_oauthlib import OAuth1
+
+
 
 #import login
 from utils import login_required
@@ -31,7 +35,7 @@ class Search(flask.views.MethodView):
         print('Search POST called')
         query = flask.request.form['Query']
         flask.session['query'] = query
-        max_tweets = 300
+        max_tweets = 20
 
         print 'query --> ' + flask.session['query']
         #api = login.sapi
@@ -43,7 +47,7 @@ class Search(flask.views.MethodView):
         if _platform == "linux" or _platform == "linux2":
             # linux
             filepath = 'static/tweets/'+flask.session['uid']+'.txt'  
-        elif _platform == "win32":
+        elif _platform == "win32"  or  _platform == "win64":
             # Windows...
             filepath = 'static//tweets//'+flask.session['uid']+'.txt'  
 
@@ -72,18 +76,23 @@ class Search(flask.views.MethodView):
         
         #Store user id and retweet user ids in a dict
         #Iterate through retweet user ids and user ids and add node and edge to graph
-        
+        tweet_id_dict ={}
         retweet_user_dict = {}
         mention_user_dict = {}
         username_dict = {}
         tweet_dict = {}
         retweet_dict = {}
         mention_tweet_dict = {}
+        influencer_dict = {}
+        influencer_entities_url = {}
+        user_entities_url = {}
+        #user_entities_url_list = []
         user_list = []
         retweet_user_list = []
         mention_user_listoflists = []
         mention_user_list = []
         complete_user_list = []
+        top_3_influencers ={}
         chunks = []
         tweets_file = open(filepath, "r")
         
@@ -91,9 +100,11 @@ class Search(flask.views.MethodView):
                 try:
                     tweet = json.loads(line)
                     #hashtags = [hashtag['text'] for hashtag in tweet['entities']['hashtags']]
+                    tweet_id = tweet['id']
                     user_id = tweet['user']['id']
                     tweet_dict[user_id] = tweet['text']
                     user_list.append(user_id)
+                    tweet_id_dict[user_id] =tweet_id
                     if 'retweeted_status' in tweet: 
                        
                         #pprint.pprint(tweet)
@@ -108,11 +119,15 @@ class Search(flask.views.MethodView):
                          mention_user_listoflists.append(mention_user_ids)
                          mention_user_dict[user_id] = mention_user_ids
                          mention_tweet_dict[user_id] = mention_tweet
+                    ## The following code gets the urls hosted in the tweet only and not from retweet urls or mention urls
+                    if 'entities' in tweet and len(tweet['entities']['urls']) > 0:
+                         user_entities_url_list = [reference['url'] for reference in tweet['entities']['urls']]
+                         user_entities_url[user_id] = user_entities_url_list
                     #pprint.pprint(user_list)
                     #print(tweets_data)
                 except:
                     continue
-
+        
         print('completed reading tweets file')
                     
         def get_user_info(user_ids):
@@ -176,33 +191,139 @@ class Search(flask.views.MethodView):
                     add_node_tw(mention_user_id)
                     add_edge_tw(mention_user_id,user_id)
         
+      
+        ## loop through the network node dictionary
+        ## identify the user ids and build a dictionary with userids and their weights
+         
+        for userid in g.node:
+            ## make sure the user id is not in the retweet user dict or mention user dict and grab that node
+            ## logic is to ensure that the user id is there in the user_list
+            if userid in user_list:
+                influencer_dict[userid] = g.node[userid]['weight']
+                influencer_entities_url[userid] = user_entities_url.get(userid)
+            
+        print influencer_dict
+        print('completed creating initial influencers dictionary')
+        # create a function which returns the value of a dictionary
+        def keyfunction(k):
+            return influencer_dict[k]
+        
+        # sort by dictionary by the values and print top 3 {key, value} pairs
+        for key in sorted(influencer_dict, key=keyfunction, reverse=True)[:3]:
+           #print "%s: %i" % (key, influencer_dict[key])        
+           url_dict = influencer_entities_url.get(key)
+           value =''
+           if url_dict is not  None:
+                 value = url_dict
+           top_3_influencers[key] = value
+           
+        print  top_3_influencers
+        print 'Identified the top 3 influencers in top_3_influencers dictionary'
+        
+#        for key,value in top_3_influencers.iteritems():
+#            print key
+#            inf_tweet = tweet_dict.get(key)
+#            inf_screen_name = username_dict.get(key)
+#             print inf_tweet
+#             print inf_screen_name
+#             print value
+#             print 'next'
+            
         ## gexf is not needed now; until we start using GEPHI    
         ##nx.write_gexf(g, 'C://Temp//test.gexf')
         if _platform == "linux" or _platform == "linux2":
             # linux
             filepathjson = 'static/tweets/'+flask.session['uid']+'.json'  ##'/tmp/tweetgraph.json' 
             print(filepathjson)
-        elif _platform == "win32":
+        elif _platform == "win32"  or  _platform == "win64":
             # Windows...
             filepathjson = 'static//tweets//'+flask.session['uid']+'.json' 
-            
+                
         try:
             print('before readwrite')
             data = json_graph.node_link_data(g)
             print('readwrite successful')
             ##pprint.pprint(data) 
             with open(filepathjson, 'w') as outfile:
+                
                 json.dump(data, outfile)
                 ##print json.dumps(data)       
-                print('JSON file Created!')
+                print('JSON file Created for network graph!')
         except:
-            print('JSON FILE Creation FAILED')
+            print('JSON FILE Creation for network graph FAILED')
         
-
+        ## REST API call to build influencers table
+        try:
+            ## make a REST aPI call 
+            ## https://api.twitter.com/1.1/statuses/oembed.json?maxwidth=250&hide_media=1&hide_thread=1&omit_script=1&align=left&id=638229069251899392
+            ## get the user id from the above dictionary and make a call  
+            ## store the results in html
+            ## add oauth
+            ##headers = {'consumer_key':'5zvyqirbbnbPxUX67ixXBwQ5G','consumer_secret':'8iGil6zWJvK7qjGj0z7xguSvaiIbZtpH0Z3UumAVetv88e9xbX','access_token':'2995170696-z5tNgtrnhR5zc5tT4sB6knKBTrCKHehOljhs1l2','access_token_secret':'wOcuYhfpvwxFZ6TmNvyPb9fPpEnH1fvfApiEZFnFGUuJk'}
+            auth = OAuth1('5zvyqirbbnbPxUX67ixXBwQ5G','8iGil6zWJvK7qjGj0z7xguSvaiIbZtpH0Z3UumAVetv88e9xbX','2995170696-z5tNgtrnhR5zc5tT4sB6knKBTrCKHehOljhs1l2','wOcuYhfpvwxFZ6TmNvyPb9fPpEnH1fvfApiEZFnFGUuJk')
+            ##iframe_dict ={userid1: {'url':1,'html':2},userid2: {'url':3,'html':4}, userid3: {'url':5,'html':6}}
+            iframe_dict ={}
+            
+            for key,value in top_3_influencers.iteritems():
+                
+                tweetid =tweet_id_dict.get(key)
+                payload ={}
+                payload['id'] = tweetid
+                
+                r = requests.get('https://api.twitter.com/1.1/statuses/oembed.json?maxwidth=250&hide_media=1&hide_thread=1&omit_script=1&align=left',params =payload,auth =auth)
+                
+                htmlcontent = r.json()
+                iframe_dict[key] ={}
+                
+                
+                internal_dict = {'html':1,'url':2}
+                internal_dict['html'] = htmlcontent['html']
+               
+                internal_dict['url'] = value
+                ##iframe_list.append(htmlcontent['html'])
+                iframe_dict[key] = internal_dict
+                
+                ##print htmlcontent['html']
+                
+            
+        except Exception , err:
+            print('twitter api call FAILED')
+            print Exception, err
+        
+        ##print iframe_dict
+        if _platform == "linux" or _platform == "linux2":
+            # linux
+            filepathjson = 'static/tweets/'+flask.session['uid']+'1.json'  ##'/tmp/tweetgraph.json' 
+            print(filepathjson)
+        elif _platform == "win32"  or  _platform == "win64":
+            # Windows...
+            filepathjson = 'static//tweets//'+flask.session['uid']+'1.json' 
+                
+        try:
+             print('before readwrite')
+             
+             with open(filepathjson, 'w') as outfile:
+             
+               json.dump(iframe_dict,outfile)
+             print('readwrite successful')
+             print('JSON file Created!')      
+            
+            
+           
+#            data = iframe_list
+#           
+#            ##pprint.pprint(data) 
+#            with open(filepathjson, 'w') as outfile:
+#                json.dumps(data, outfile)
+#                ##print json.dumps(data)       
+#                
+        except Exception,err:
+            print('JSON FILE Creation FAILED')
+            print Exception, err
         ## process sentiment
         try:
             print('before process sentiment')
-            process_sentiment();
+            ##process_sentiment();
             print('after process sentiment')
         except:
             print('Process Sentiment FAILED')

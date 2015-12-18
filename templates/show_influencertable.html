@@ -1,0 +1,49 @@
+<!-- Show the tweets , top influencers and descriptive stats - END -->
+
+<!--
+    <div id='InfluencersDiv' class="container" >
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-lg-4">
+             <div class="box">
+                <div class="icon">
+                    <div class="image"><a href="#" onclick="showInfluencersAndTweets();" title="Top Tweets of Influencers"> <span class="glyphicon glyphicon-list-alt btn-lg white"></span></a></div>
+                    <div class="info">
+                          <h5 class="title">Influencer Tweets</h3>
+                    </div>
+                    </div>
+                </div>            
+             </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-lg-4">
+            <div class="box">
+                <div class="icon">
+                    <div class="image"><a href="#" onclick="showDescriptivestats();" title="Descriptive Analysis"> <span class="glyphicon glyphicon-list-alt btn-lg white"></span></a></div>
+                    <div class="info">
+                          <h5 class="title">Descriptive</h3>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+-->
+
+<div  id="influencerstable" class ="container">
+
+
+{% for i in range(html|length) %}
+<div class ="row-fluid" style="background-color:lightgray; height:375px ; color:white; padding:20px; border:thin solid red;">
+<div class="col-md-3" width="400" height="300">
+{{ html[i][0]|safe }}
+</div>
+<div class="col-md-9" style="background-color:lightgray; height:353px ; color:white; width:800px">
+  <iframe class="embed-responsive-item" src='{{ html[i][1][0] | safe}}'  scrolling="yes" height="300" width="800" ></iframe>
+</div>  
+</div>
+{% endfor %}
+<br><br>
+ </div>	<!-- end container -->

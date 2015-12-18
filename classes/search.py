@@ -220,6 +220,11 @@ class Search(flask.views.MethodView):
         print  top_3_influencers
         print 'Identified the top 3 influencers in top_3_influencers dictionary'
         
+        ## mention user dict has list of mention user ids 
+        ## need to take cout of each list 
+          # sort by dictionary by the values and print top 3 {key, value} pairs
+      
+        
 #        for key,value in top_3_influencers.iteritems():
 #            print key
 #            inf_tweet = tweet_dict.get(key)

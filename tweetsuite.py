@@ -80,4 +80,6 @@ if _platform == "win32":
     application.debug = True
 
 if __name__ == '__main__':
-    tweetsuite.run(host='0.0.0.0', port=5000)
+      tweetsuite.run(debug=True)
+
+##    tweetsuite.run(host='0.0.0.0', port=5000)

@@ -248,13 +248,16 @@ def process_sentiment():
 
     print('after reading classifier and bag of words' + str(fileObjectclassfier))
 
-    # load the object from the file into var b
-    classifier = pickle.load(fileObjectclassfier)
-    fileObjectclassfier.close()
-    print('Pickle load for classifier completed!')  
-    # load the object from the file into var b
-    word_features = pickle.load(fileObjectbow)
-    fileObjectbow.close()
+    try:
+        # load the object from the file into var b
+        classifier = pickle.load(fileObjectclassfier)
+        fileObjectclassfier.close()
+        print('Pickle load for classifier completed!')  
+        # load the object from the file into var b
+        word_features = pickle.load(fileObjectbow)
+        fileObjectbow.close()
+    except:
+        print('FAILED loading from pickle.')
     
     print ('FINISHED reading pickle' + str(datetime.now()))
 

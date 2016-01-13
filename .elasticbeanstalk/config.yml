@@ -4,9 +4,10 @@ branch-defaults:
   master:
     environment: tweetsuite
   phase1.2:
-    environment: tweetsuite
+    environment: tweetsuite-test
+    group_suffix: null
 global:
-  application_name: tweetsuite
+  application_name: tweetsuite-dev
   default_ec2_keyname: ts_keypair
   default_platform: Python 2.7
   default_region: us-east-1
